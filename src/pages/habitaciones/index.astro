@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const rooms = [
+  { name:'Suite Botánica', meta:'2 huéspedes · 1 cama King · 32 m²', view:'Vista ciudad', price:'$145.000', image:'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=88', tag:'Más popular' },
+  { name:'Habitación Deluxe', meta:'2 huéspedes · 1 cama Queen · 28 m²', view:'Vista jardín', price:'$115.000', image:'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=88', tag:'Vista al jardín' },
+  { name:'Habitación Superior', meta:'2 huéspedes · 1 cama Queen · 24 m²', view:'Vista interior', price:'$95.000', image:'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=88', tag:'Gran valor' }
+];
+const filters = [
+  { title:'Tipo de habitación', options:['Suite (4)','Deluxe (3)','Superior (1)'] },
+  { title:'Servicios', options:['Desayuno incluido','Vista panorámica','Balcón o terraza'] },
+  { title:'Accesibilidad', options:['Movilidad reducida'] }
+];
+---
+<BaseLayout title="Habitaciones disponibles — Casa Botánica">
+  <section class="relative min-h-[390px] overflow-hidden text-white md:min-h-[430px]">
+    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=90" alt="Casa Botánica al atardecer" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,30,22,.88),rgba(5,30,22,.48),rgba(5,30,22,.3))]"></div>
+    <div class="shell relative flex min-h-[390px] items-center pt-5 md:min-h-[430px]">
+      <div class="max-w-2xl pb-14"><p class="eyebrow text-gold-soft">Tu refugio te espera</p><h1 class="display mt-4 text-5xl font-medium leading-[.92] sm:text-6xl md:text-7xl">Encuentra tu habitación perfecta</h1><p class="mt-5 max-w-xl text-sm leading-7 text-white/75">Espacios llenos de calma, luz natural y detalles que convierten cada noche en un recuerdo.</p></div>
+    </div>
+  </section>
+
+  <section class="relative z-20 -mt-14 px-4">
+    <form class="soft-shadow mx-auto grid max-w-5xl overflow-hidden rounded-2xl bg-paper md:grid-cols-[1fr_1fr_1fr_1.25fr]">
+      <label class="border-b border-stone-200 px-6 py-5 md:border-b-0 md:border-r"><span class="eyebrow text-stone-500">Entrada</span><input type="date" value="2026-08-12" class="mt-2 w-full bg-transparent text-sm font-semibold outline-none" /></label>
+      <label class="border-b border-stone-200 px-6 py-5 md:border-b-0 md:border-r"><span class="eyebrow text-stone-500">Salida</span><input type="date" value="2026-08-15" class="mt-2 w-full bg-transparent text-sm font-semibold outline-none" /></label>
+      <label class="border-b border-stone-200 px-6 py-5 md:border-b-0 md:border-r"><span class="eyebrow text-stone-500">Huéspedes</span><select class="mt-2 w-full bg-transparent text-sm font-semibold outline-none"><option>2 adultos · 1 habitación</option><option>1 adulto</option><option>Familia · 4 huéspedes</option></select></label>
+      <div class="p-3"><button type="button" class="h-full min-h-16 w-full rounded-xl bg-forest px-5 text-xs font-bold tracking-[.12em] text-white transition hover:bg-forest-light">MODIFICAR BÚSQUEDA</button></div>
+    </form>
+  </section>
+
+  <section class="shell py-20 lg:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-5"><div><p class="eyebrow">Descansa con estilo</p><h2 class="display mt-3 text-5xl font-medium sm:text-6xl">Habitaciones disponibles</h2><p class="mt-3 text-sm text-stone-500">Hemos seleccionado 8 opciones para tu estadía.</p></div><label class="text-xs text-stone-500">Ordenar por <select class="ml-2 rounded-xl border border-stone-200 bg-paper px-5 py-3 text-sm text-ink"><option>Recomendadas</option><option>Menor precio</option></select></label></div>
+    <div class="mt-10 flex gap-3 overflow-x-auto pb-3 lg:hidden">{['Todas','Suite','Deluxe','Desayuno incluido','Vista panorámica'].map((filter,index)=><button class:list={["shrink-0 rounded-full px-5 py-2.5 text-xs",index===0?'bg-forest text-white':'border border-stone-200 bg-paper text-forest']}>{filter}</button>)}</div>
+
+    <div class="mt-9 grid items-start gap-8 lg:grid-cols-[250px_1fr]">
+      <aside class="sticky top-28 hidden rounded-2xl border border-stone-200/70 bg-paper p-6 soft-shadow lg:block"><div class="flex justify-between"><h3 class="display text-2xl">Filtrar resultados</h3><button class="text-[.65rem] text-stone-500">Limpiar</button></div>{filters.map(({title,options})=><div class="mt-6 border-t border-stone-200 pt-5"><b class="text-xs uppercase tracking-wider text-forest">{title}</b><div class="mt-4 space-y-3 text-xs text-stone-600">{options.map(option=><label class="flex items-center gap-2.5"><input type="checkbox" class="accent-forest" />{option}</label>)}</div></div>)}<button class="mt-7 w-full rounded-xl border border-forest py-3 text-xs font-bold tracking-wider text-forest">APLICAR FILTROS</button></aside>
+
+      <div class="space-y-6">{rooms.map((room,index)=><article class="room-card group overflow-hidden rounded-2xl border border-stone-200/70 bg-paper soft-shadow md:grid md:grid-cols-[43%_1fr]">
+        <div class="relative min-h-64 overflow-hidden"><img src={room.image} alt={room.name} class="absolute inset-0 h-full w-full object-cover" /><span class="absolute left-5 top-5 rounded-full bg-paper/90 px-3 py-1.5 text-[.58rem] font-bold uppercase tracking-[.13em] text-forest backdrop-blur">{room.tag}</span><button class="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full bg-forest/60 text-white backdrop-blur" aria-label={`Guardar ${room.name}`}>♡</button></div>
+        <div class="flex min-h-72 flex-col p-6 md:p-7"><p class="eyebrow">{index===0?'Nuestra firma':room.view}</p><h3 class="display mt-2 text-4xl font-medium">{room.name}</h3><p class="mt-3 text-xs text-stone-500">{room.meta} · {room.view}</p><p class="mt-5 max-w-xl text-sm leading-6 text-stone-600">Elegante, luminosa y acogedora. Un espacio diseñado para descansar entre materiales naturales, vegetación y la calidez de Casa Botánica.</p><div class="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-stone-200 pt-5"><div><small class="text-[.62rem] uppercase tracking-widest text-stone-500">Desde</small><p class="display text-3xl">{room.price}<span class="ml-1 font-sans text-[.65rem] text-stone-500">por noche</span></p></div><a href="/habitaciones/suite-botanica" class="rounded-xl bg-forest px-6 py-3.5 text-xs font-bold tracking-wider text-white transition hover:bg-forest-light">VER DETALLES &nbsp; →</a></div></div>
+      </article>)}</div>
+    </div>
+  </section>
+
+  <section class="bg-forest py-16 text-white"><div class="shell flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left"><div><p class="eyebrow text-gold-soft">¿Necesitas ayuda para elegir?</p><h2 class="display mt-2 text-4xl">Nuestro concierge conoce el lugar ideal para ti.</h2></div><button class="shrink-0 rounded-full border border-gold/70 px-7 py-4 text-xs font-bold tracking-wider">HABLAR CON CONCIERGE</button></div></section>
+</BaseLayout>

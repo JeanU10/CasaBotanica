@@ -1,0 +1,6 @@
+---
+const { current = 1 } = Astro.props;
+const steps = [['Habitación','Suite Botánica'],['Experiencias','Agrega servicios'],['Datos','Tus datos personales'],['Pago','Realiza tu pago']];
+const renderedSteps = steps.map((step, index) => ({ step, number: index + 1 }));
+---
+<div class="border-b border-stone-200 bg-paper"><div class="shell grid grid-cols-4 gap-2 py-5 md:py-7">{renderedSteps.map(({step,number})=><div class="flex items-center gap-3"><span class:list={["grid h-8 w-8 shrink-0 place-items-center rounded-full text-xs md:h-10 md:w-10",current>number?"bg-forest text-white":number===current?"bg-gold text-white":"border border-stone-300 text-stone-400"]}>{current>number?'✓':String(number).padStart(2,'0')}</span><div class="hidden md:block"><p class="text-xs font-bold">{String(number).padStart(2,'0')} {step[0]}</p><p class="mt-1 text-xs text-stone-500">{step[1]}</p></div></div>)}</div></div>

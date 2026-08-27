@@ -1,0 +1,7 @@
+---
+import '../styles/global.css';
+import PublicHeader from '../components/PublicHeader.astro';
+interface Props { title: string; description?: string; }
+const { title, description = 'Casa Botánica Hotel Boutique' } = Astro.props;
+---
+<!doctype html><html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><meta name="theme-color" content="#0b2f24"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/><title>{title}</title></head><body><PublicHeader/><main class="pt-20 lg:pt-24"><slot/></main></body></html>

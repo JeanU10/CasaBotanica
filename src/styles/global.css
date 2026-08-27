@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #0b2f24;
+  --color-forest-light: #174638;
+  --color-ivory: #f7f4ee;
+  --color-paper: #fffdf9;
+  --color-gold: #c89c52;
+  --color-gold-soft: #e7d5af;
+  --color-ink: #20231f;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+}
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+button, a, input, select { -webkit-tap-highlight-color: transparent; }
+::selection { background: #c89c5260; }
+.display { font-family: var(--font-serif); }
+.shell { width: min(100% - 2rem, 1280px); margin-inline: auto; }
+.eyebrow { letter-spacing: .22em; text-transform: uppercase; font-size: .7rem; font-weight: 700; color: var(--color-gold); }
+.glass { background: rgba(8, 31, 24, .58); backdrop-filter: blur(14px); }
+.soft-shadow { box-shadow: 0 18px 55px rgba(22, 34, 28, .10); }
+.room-card { transition: transform .35s ease, box-shadow .35s ease; }
+.room-card:hover { transform: translateY(-7px); box-shadow: 0 24px 48px rgba(17, 40, 31, .13); }
+.room-card img { transition: transform .65s ease; }
+.room-card:hover img { transform: scale(1.045); }
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .75s ease, transform .75s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+section.shell.grid > div:first-child { min-width: 0; }
+
+/* Shared visual language for detail and booking views */
+main > section.bg-forest:first-child,
+main > div.bg-forest:first-child {
+  background-color: var(--color-forest);
+  background-image:
+    linear-gradient(90deg, rgba(5, 31, 23, .96), rgba(5, 31, 23, .76), rgba(5, 31, 23, .58)),
+    url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1900&q=82");
+  background-position: center;
+  background-size: cover;
+  border-bottom: 1px solid rgba(200, 156, 82, .28);
+}
+main > section.bg-forest:first-child + .border-b {
+  background: rgba(247, 244, 238, .96);
+  border-color: rgba(200, 156, 82, .25);
+}
+main input:not([type="checkbox"]),
+main select,
+main textarea {
+  background-color: rgba(255, 253, 249, .88);
+  border-color: rgba(200, 156, 82, .32);
+}
+main input:focus,
+main select:focus,
+main textarea:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(200, 156, 82, .10);
+}
+main .bg-paper.soft-shadow {
+  border: 1px solid rgba(200, 156, 82, .15);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .fade-up { opacity: 1; transform: none; }
+}
