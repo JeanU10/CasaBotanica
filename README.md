@@ -1,48 +1,116 @@
-# Casa Botánica — Hotel Boutique
+<div align="center">
 
-Sitio web responsive para **Casa Botánica**, un hotel boutique ficticio. El proyecto reproduce una experiencia digital cálida y editorial mediante una paleta verde bosque, superficies marfil, acentos dorados, fotografía inmersiva y un flujo completo de reserva.
+# Casa Botánica
 
-## Vista general
+### Una experiencia digital para un hotel boutique donde naturaleza, diseño y hospitalidad se encuentran.
 
-El sitio incluye una landing pública y las principales pantallas del proceso de reserva:
+![Astro](https://img.shields.io/badge/Astro-5-BC52EE?style=flat-square&logo=astro&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Responsive](https://img.shields.io/badge/Diseño-Responsive-C89C52?style=flat-square)
 
-- Portada con hero, disponibilidad, historia, habitaciones y experiencias.
-- Catálogo de habitaciones con filtros responsive.
-- Detalle de la Suite Botánica.
-- Selección de servicios y experiencias adicionales.
+</div>
+
+![Presentación de Casa Botánica](docs/screenshots/home.jpg)
+
+## Sobre el proyecto
+
+**Casa Botánica** es una experiencia web responsive para un hotel boutique ficticio. El proyecto combina una estética editorial de lujo con un recorrido de reserva claro y funcional: descubrir el hotel, comparar habitaciones, personalizar la estadía, ingresar los datos del huésped y revisar la confirmación.
+
+La interfaz toma como inspiración la arquitectura mediterránea, la naturaleza y la iluminación cálida. Su sistema visual se construye alrededor del verde bosque, superficies marfil, acentos dorados, fotografía inmersiva y tipografías elegantes.
+
+> Proyecto frontend demostrativo. Los datos de huéspedes, precios y pagos son ficticios y no se procesan transacciones reales.
+
+## Experiencia visual
+
+### Descubrimiento y habitaciones
+
+La landing presenta la identidad del hotel, su propuesta de valor, habitaciones destacadas, experiencias locales y un buscador de disponibilidad integrado.
+
+![Catálogo de habitaciones](docs/screenshots/rooms.jpg)
+
+### Flujo de reserva
+
+El proceso mantiene la misma línea visual y acompaña al huésped mediante pasos claros, resúmenes persistentes y llamadas a la acción consistentes.
+
+![Flujo de reserva de Casa Botánica](docs/screenshots/booking.jpg)
+
+## Funcionalidades
+
+- Landing inmersiva con hero fotográfico y navegación traslúcida.
+- Buscador de disponibilidad responsive.
+- Catálogo de habitaciones con filtros y ordenamiento visual.
+- Detalle completo de la Suite Botánica.
+- Selección de experiencias y servicios adicionales.
 - Formulario de datos del huésped.
-- Pantalla de pago.
-- Confirmación y resumen de la reserva.
+- Interfaz de pago demostrativa.
+- Confirmación con resumen y número de reserva.
+- Navegación móvil y componentes reutilizables.
+- Animaciones sutiles con soporte para `prefers-reduced-motion`.
+- Diseño comprobado sin desbordamiento horizontal en móviles.
 
-## Tecnologías
+## Recorrido del usuario
 
-- [Astro](https://astro.build/) 5
-- [Tailwind CSS](https://tailwindcss.com/) 4
-- TypeScript
-- HTML semántico y JavaScript nativo
+```text
+Portada
+   ↓
+Habitaciones disponibles
+   ↓
+Detalle de habitación
+   ↓
+Experiencias adicionales
+   ↓
+Datos del huésped
+   ↓
+Pago
+   ↓
+Confirmación
+```
 
-## Rutas
+## Rutas disponibles
 
-| Ruta | Descripción |
+| Ruta | Vista |
 | --- | --- |
 | `/` | Landing principal |
-| `/habitaciones` | Habitaciones disponibles |
-| `/habitaciones/suite-botanica` | Detalle de habitación |
-| `/reserva/experiencias` | Servicios adicionales |
+| `/habitaciones` | Catálogo y disponibilidad |
+| `/habitaciones/suite-botanica` | Detalle de Suite Botánica |
+| `/reserva/experiencias` | Experiencias adicionales |
 | `/reserva/datos` | Datos del huésped |
 | `/reserva/pago` | Método de pago |
 | `/reserva/confirmacion` | Confirmación de reserva |
 
-## Instalación
+## Sistema de diseño
+
+| Elemento | Uso |
+| --- | --- |
+| Verde bosque `#0B2F24` | Navegación, botones y elementos de confianza |
+| Marfil `#F7F4EE` | Fondo principal y superficies cálidas |
+| Dorado `#C89C52` | Estados activos, etiquetas y detalles de marca |
+| Cormorant Garamond | Titulares editoriales |
+| Manrope | Navegación, formularios y contenido funcional |
+
+Las vistas internas reutilizan encabezados fotográficos con degradado, superficies crema, estados dorados y tarjetas suaves para conservar una identidad consistente durante todo el recorrido.
+
+## Tecnologías
+
+- [Astro 5](https://astro.build/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- TypeScript
+- HTML semántico
+- JavaScript nativo
+
+## Instalación local
 
 Requiere Node.js 20 o superior y pnpm.
 
 ```bash
+git clone https://github.com/JeanU10/CasaBotanica.git
+cd CasaBotanica
 pnpm install
 pnpm dev
 ```
 
-El servidor de desarrollo estará disponible normalmente en `http://localhost:4321`.
+El servidor estará disponible normalmente en `http://localhost:4321`.
 
 ## Comandos
 
@@ -50,14 +118,14 @@ El servidor de desarrollo estará disponible normalmente en `http://localhost:43
 # Desarrollo
 pnpm dev
 
-# Verificación de Astro y compilación de producción
+# Verificación de Astro y compilación
 pnpm build
 
-# Previsualizar el build
+# Previsualizar el build estático
 pnpm preview
 ```
 
-## Estructura
+## Estructura principal
 
 ```text
 src/
@@ -75,25 +143,16 @@ src/
     └── global.css
 ```
 
-## Sistema visual
-
-- **Verde bosque:** navegación, botones y elementos de confianza.
-- **Marfil:** fondo principal y superficies cálidas.
-- **Dorado:** estados activos, etiquetas y detalles de marca.
-- **Cormorant Garamond:** titulares editoriales.
-- **Manrope:** navegación, formularios y textos funcionales.
-
-Las vistas utilizan encabezados traslúcidos con desenfoque, fotografía con degradados y componentes adaptativos. El flujo fue comprobado en escritorio y móvil sin desbordamiento horizontal.
-
 ## Build de producción
-
-El proyecto genera un sitio estático en `dist/`:
 
 ```bash
 pnpm build
 ```
 
-## Nota
+Astro genera el sitio estático optimizado dentro de `dist/`.
 
-Las imágenes se cargan desde Unsplash y los datos de habitaciones, huéspedes y pagos son demostrativos. No existe procesamiento real de reservas ni transacciones.
+---
 
+<div align="center">
+  Diseñado y desarrollado como una experiencia conceptual para Casa Botánica.
+</div>
