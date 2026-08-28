@@ -1,4 +1,174 @@
 ---
-const { extras = false } = Astro.props;
+// Dynamic Client-aware Reservation Summary Component for Casa Botánica - Clean Vector Edition
 ---
-<aside class="rounded-2xl bg-paper p-6 soft-shadow lg:sticky lg:top-28"><h2 class="display text-3xl">Resumen de tu reserva</h2><div class="mt-6 flex gap-4 border-b border-stone-200 pb-5"><img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=500&q=85" alt="Suite Botánica" class="h-20 w-28 rounded-xl object-cover"/><div><h3 class="display text-xl">Suite Botánica</h3><p class="mt-1 text-xs text-stone-500">2 huéspedes · 1 cama King · 32 m²</p></div></div><div class="grid grid-cols-3 gap-3 border-b border-stone-200 py-5 text-xs"><div><p class="text-stone-500">Entrada</p><b>12 Ago 2026</b></div><div><p class="text-stone-500">Salida</p><b>15 Ago 2026</b></div><div><p class="text-stone-500">Noches</p><b>3 noches</b></div></div>{extras&&<div class="space-y-3 border-b border-stone-200 py-5 text-xs"><div class="flex justify-between"><span>Tour Viñedos Premium</span><b>$42.000</b></div><div class="flex justify-between"><span>Masaje relajante</span><b>$55.000</b></div></div>}<div class="space-y-3 py-5 text-sm"><div class="flex justify-between"><span>Subtotal habitación</span><b>$435.000</b></div><div class="flex justify-between"><span>Impuestos y cargos</span><b>$65.250</b></div></div><div class="flex items-end justify-between rounded-xl bg-[#f4ead9] p-4"><b>Total a pagar</b><p class="display text-3xl">${extras?'597.250':'500.250'}</p></div><div class="mt-5 rounded-xl border border-stone-200 p-4 text-xs"><b class="text-forest">◇ Reserva segura</b><p class="mt-1 text-stone-500">Tus datos están protegidos con cifrado de nivel bancario.</p></div></aside>
+
+<aside
+  id="reservation-summary-card"
+  class="rounded-3xl border border-stone-200/80 bg-paper p-6 md:p-7 soft-shadow lg:sticky lg:top-28 transition-all duration-300"
+>
+  <div class="flex flex-col items-start gap-2 border-b border-stone-200 pb-4">
+    <h2 class="display text-2xl font-medium leading-tight text-forest md:text-[1.75rem]">Resumen de tu Reserva</h2>
+    <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-[0.58rem] font-bold uppercase tracking-wider text-emerald-800">
+      Confirmada al instante
+    </span>
+  </div>
+
+  <!-- Room Preview -->
+  <div class="mt-5 flex gap-4 border-b border-stone-200 pb-5">
+    <img
+      id="summary-room-img"
+      src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=500&q=85"
+      alt="Habitación elegida"
+      class="h-20 w-24 rounded-2xl object-cover shrink-0 border border-stone-200 shadow-sm"
+    />
+    <div class="min-w-0">
+      <h3 id="summary-room-name" class="display text-xl font-semibold text-forest truncate">
+        Suite Botánica
+      </h3>
+      <p id="summary-room-meta" class="mt-1 text-xs text-stone-500">
+        2 huéspedes · 1 Cama King · 38 m²
+      </p>
+      <a href="/habitaciones" class="mt-1.5 inline-block text-[0.68rem] font-bold text-gold hover:underline">
+        Cambiar habitación ↻
+      </a>
+    </div>
+  </div>
+
+  <!-- Dates Grid -->
+  <div class="grid grid-cols-3 gap-2 border-b border-stone-200 py-4 text-xs">
+    <div class="rounded-xl bg-ivory p-2.5 text-center">
+      <p class="text-[0.62rem] uppercase tracking-wider text-stone-500 font-semibold">Llegada</p>
+      <b id="summary-checkin" class="mt-0.5 block text-xs md:text-sm text-forest">14 Ago 2026</b>
+    </div>
+    <div class="rounded-xl bg-ivory p-2.5 text-center">
+      <p class="text-[0.62rem] uppercase tracking-wider text-stone-500 font-semibold">Salida</p>
+      <b id="summary-checkout" class="mt-0.5 block text-xs md:text-sm text-forest">17 Ago 2026</b>
+    </div>
+    <div class="rounded-xl bg-ivory p-2.5 text-center">
+      <p class="text-[0.62rem] uppercase tracking-wider text-stone-500 font-semibold">Estadía</p>
+      <b id="summary-nights" class="mt-0.5 block text-xs md:text-sm text-forest">3 noches</b>
+    </div>
+  </div>
+
+  <!-- Personal Comfort Inclusions -->
+  <div class="border-b border-stone-200 py-4 text-xs">
+    <div class="flex items-center justify-between">
+      <span class="font-bold text-forest uppercase tracking-wider text-[0.65rem]">Detalles de Confort:</span>
+      <button type="button" data-open-sensory-modal class="text-gold text-[0.68rem] font-bold hover:underline">
+        Modificar
+      </button>
+    </div>
+    <div class="mt-2 space-y-1 text-stone-600 text-[0.72rem]">
+      <p id="summary-pillow">Almohada: <span class="font-medium text-forest">Pluma de ganso húngaro</span></p>
+      <p id="summary-aroma">Aroma: <span class="font-medium text-forest">Lavanda & Cedro Andino</span></p>
+      <p class="text-emerald-700 font-medium">✦ Incluye desayuno a la carta y amenidades orgánicas</p>
+    </div>
+  </div>
+
+  <!-- Experiences Items Container -->
+  <div id="summary-experiences-container" class="border-b border-stone-200 py-4 text-xs space-y-2.5">
+    <span class="font-bold text-forest uppercase tracking-wider text-[0.65rem] block">Servicios y Experiencias:</span>
+    <div id="summary-experiences-list" class="space-y-2 text-stone-600">
+      <!-- Dynamic list items inserted via JS -->
+    </div>
+  </div>
+
+  <!-- Pricing Breakdown -->
+  <div class="space-y-2.5 py-4 text-xs md:text-sm">
+    <div class="flex justify-between text-stone-600">
+      <span id="summary-room-subtotal-label">Habitación (3 noches)</span>
+      <b id="summary-room-subtotal" class="text-forest">$435.000</b>
+    </div>
+    <div id="summary-extras-row" class="flex justify-between text-stone-600">
+      <span>Experiencias adicionales</span>
+      <b id="summary-extras-subtotal" class="text-forest">$97.000</b>
+    </div>
+    <div class="flex justify-between text-stone-600">
+      <span>Cargos de servicio & IVA (15%)</span>
+      <b id="summary-taxes" class="text-forest">$79.800</b>
+    </div>
+  </div>
+
+  <!-- Total box -->
+  <div class="mt-2 flex items-end justify-between gap-3 rounded-2xl border border-gold/30 bg-[#f2e7d5] p-4">
+    <div class="min-w-0">
+      <span class="text-[0.62rem] uppercase tracking-widest text-stone-600 font-bold block">Total a Pagar</span>
+      <span class="text-[0.68rem] text-stone-500">Impuestos y amenidades incluidos</span>
+    </div>
+    <p id="summary-grand-total" class="display shrink-0 text-2xl font-semibold text-forest sm:text-3xl">
+      $611.800
+    </p>
+  </div>
+
+  <!-- Trust guarantees -->
+  <div class="mt-5 space-y-2 rounded-2xl bg-ivory p-4 text-[0.72rem] text-stone-600">
+    <p class="flex items-center gap-2 font-semibold text-forest">
+      <span class="text-gold">✦</span> Garantía de Mejor Tarifa & Cancelación Flexible
+    </p>
+    <p class="text-stone-500">Cancela sin costo hasta 48 horas antes del check-in. Sin cargos ocultos.</p>
+  </div>
+</aside>
+
+<script>
+  import { getStoredState, calculateBookingTotals, formatPrice, EXPERIENCES_CATALOG } from '../scripts/bookingStore';
+
+  const updateSummaryUI = () => {
+    const state = getStoredState();
+    const totals = calculateBookingTotals(state);
+
+    const roomImg = document.getElementById('summary-room-img') as HTMLImageElement | null;
+    const roomName = document.getElementById('summary-room-name');
+    const roomMeta = document.getElementById('summary-room-meta');
+    const checkin = document.getElementById('summary-checkin');
+    const checkout = document.getElementById('summary-checkout');
+    const nights = document.getElementById('summary-nights');
+    const pillow = document.getElementById('summary-pillow');
+    const aroma = document.getElementById('summary-aroma');
+
+    const expList = document.getElementById('summary-experiences-list');
+    const roomSubtotalLabel = document.getElementById('summary-room-subtotal-label');
+    const roomSubtotal = document.getElementById('summary-room-subtotal');
+    const extrasSubtotal = document.getElementById('summary-extras-subtotal');
+    const taxes = document.getElementById('summary-taxes');
+    const grandTotal = document.getElementById('summary-grand-total');
+
+    if (roomImg && totals.room) roomImg.src = totals.room.image;
+    if (roomName && totals.room) roomName.textContent = totals.room.name;
+    if (roomMeta && totals.room) roomMeta.textContent = `${state.guests} · ${totals.room.bed} · ${totals.room.size}`;
+
+    if (checkin) checkin.textContent = state.checkIn;
+    if (checkout) checkout.textContent = state.checkOut;
+    if (nights) nights.textContent = `${totals.nights} ${totals.nights === 1 ? 'noche' : 'noches'}`;
+
+    if (pillow) pillow.innerHTML = `Almohada: <span class="font-medium text-forest">${state.guestInfo.pillowPreference || 'Pluma de ganso'}</span>`;
+    if (aroma) aroma.innerHTML = `Aroma: <span class="font-medium text-forest">${state.guestInfo.aromaPreference || 'Lavanda & Cedro'}</span>`;
+
+    if (expList) {
+      if (state.selectedExperiences.length === 0) {
+        expList.innerHTML = `<p class="text-stone-400 italic">No has seleccionado experiencias adicionales.</p>`;
+      } else {
+        expList.innerHTML = state.selectedExperiences
+          .map(id => {
+            const exp = EXPERIENCES_CATALOG.find(e => e.id === id);
+            if (!exp) return '';
+            return `
+              <div class="flex justify-between items-center text-xs">
+                <span class="truncate pr-2">• ${exp.name}</span>
+                <b class="text-forest shrink-0">${formatPrice(exp.priceCLP, state.currency)}</b>
+              </div>
+            `;
+          })
+          .join('');
+      }
+    }
+
+    if (roomSubtotalLabel) roomSubtotalLabel.textContent = `Habitación (${totals.nights} ${totals.nights === 1 ? 'noche' : 'noches'})`;
+    if (roomSubtotal) roomSubtotal.textContent = formatPrice(totals.roomSubtotalCLP, state.currency);
+    if (extrasSubtotal) extrasSubtotal.textContent = formatPrice(totals.extrasSubtotalCLP, state.currency);
+    if (taxes) taxes.textContent = formatPrice(totals.taxesCLP, state.currency);
+    if (grandTotal) grandTotal.textContent = formatPrice(totals.totalCLP, state.currency);
+  };
+
+  updateSummaryUI();
+  window.addEventListener('casa-botanica-state-change', updateSummaryUI);
+</script>

@@ -1,6 +1,59 @@
 ---
+// Booking Funnel Stepper for Casa Botánica - Perfectly Aligned & Responsive
+interface Props {
+  current?: number;
+}
 const { current = 1 } = Astro.props;
-const steps = [['Habitación','Suite Botánica'],['Experiencias','Agrega servicios'],['Datos','Tus datos personales'],['Pago','Realiza tu pago']];
-const renderedSteps = steps.map((step, index) => ({ step, number: index + 1 }));
+
+const steps = [
+  { name: 'Habitación', sub: 'Selecciona tu refugio', href: '/habitaciones' },
+  { name: 'Experiencias', sub: 'Servicios extras', href: '/reserva/experiencias' },
+  { name: 'Datos', sub: 'Tus preferencias', href: '/reserva/datos' },
+  { name: 'Pago', sub: 'Confirmación', href: '/reserva/pago' }
+];
 ---
-<div class="border-b border-stone-200 bg-paper"><div class="shell grid grid-cols-4 gap-2 py-5 md:py-7">{renderedSteps.map(({step,number})=><div class="flex items-center gap-3"><span class:list={["grid h-8 w-8 shrink-0 place-items-center rounded-full text-xs md:h-10 md:w-10",current>number?"bg-forest text-white":number===current?"bg-gold text-white":"border border-stone-300 text-stone-400"]}>{current>number?'✓':String(number).padStart(2,'0')}</span><div class="hidden md:block"><p class="text-xs font-bold">{String(number).padStart(2,'0')} {step[0]}</p><p class="mt-1 text-xs text-stone-500">{step[1]}</p></div></div>)}</div></div>
+
+<div class="border-b border-stone-200/80 bg-paper transition-colors duration-300">
+  <div class="shell py-4 sm:py-5">
+    <nav class="relative grid grid-cols-4 items-center" aria-label="Progreso de la reserva">
+      <span class="pointer-events-none absolute left-[12.5%] right-[12.5%] top-4 h-px bg-stone-200 sm:top-[1.125rem]" aria-hidden="true"></span>
+      {steps.map((step, index) => {
+        const stepNum = index + 1;
+        const isPast = current > stepNum;
+        const isCurrent = current === stepNum;
+        return (
+          <a
+            href={isPast ? step.href : undefined}
+            aria-current={isCurrent ? 'step' : undefined}
+            class:list={[
+              "relative z-10 flex min-w-0 justify-center transition group",
+              isPast ? "cursor-pointer" : isCurrent ? "cursor-default" : "cursor-not-allowed"
+            ]}
+          >
+            <span class="inline-flex min-w-0 items-center gap-2 bg-paper px-1.5 sm:px-2">
+              <span
+                class:list={[
+                  "grid h-8 w-8 shrink-0 place-items-center rounded-full text-[0.68rem] font-bold transition sm:h-9 sm:w-9",
+                  isPast ? "bg-forest text-white group-hover:bg-forest-light" : isCurrent ? "bg-gold text-forest shadow-md" : "border border-stone-300 bg-paper text-stone-400"
+                ]}
+              >
+                {isPast ? '✓' : `0${stepNum}`}
+              </span>
+              <span class="hidden min-w-0 sm:block">
+                <span
+                  class:list={[
+                    "block truncate text-[0.68rem] font-bold uppercase tracking-[0.08em] md:text-xs",
+                    isCurrent ? "text-forest" : isPast ? "text-stone-700" : "text-stone-400"
+                  ]}
+                >
+                  {step.name}
+                </span>
+                <span class="hidden truncate text-[0.64rem] text-stone-500 md:block">{step.sub}</span>
+              </span>
+            </span>
+          </a>
+        );
+      })}
+    </nav>
+  </div>
+</div>

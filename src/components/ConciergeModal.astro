@@ -1,0 +1,198 @@
+---
+// Virtual Concierge Modal & Direct Hospitality Assistant for Casa Botánica - Clean Edition
+---
+
+<div
+  id="concierge-modal"
+  class="fixed inset-0 z-[75] hidden items-center justify-center p-4 bg-black/65 backdrop-blur-md transition-all duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="concierge-title"
+>
+  <div
+    class="relative max-h-[92vh] w-full max-w-lg overflow-hidden rounded-3xl border border-gold/30 bg-[#092219] text-white shadow-2xl flex flex-col"
+  >
+    <!-- Header -->
+    <div class="bg-forest-dark/90 p-5 border-b border-white/10 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <img
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+            alt="Valentina - Concierge de Casa Botánica"
+            class="h-11 w-11 rounded-full object-cover border-2 border-gold"
+          />
+          <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-forest-dark"></span>
+        </div>
+        <div>
+          <h3 id="concierge-title" class="display text-lg font-medium text-white">Valentina · Concierge</h3>
+          <p class="text-[0.62rem] text-gold-soft font-semibold tracking-wider uppercase">Hospitalidad & Bienestar 24/7</p>
+        </div>
+      </div>
+      <button
+        id="close-concierge-modal"
+        class="grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition text-xs"
+        aria-label="Cerrar concierge"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Messages Body -->
+    <div id="concierge-messages" class="flex-1 overflow-y-auto p-5 space-y-4 max-h-[380px] text-xs">
+      <!-- Welcome message -->
+      <div class="flex gap-2.5 items-start">
+        <div class="h-6 w-6 rounded-full bg-gold/20 text-gold grid place-items-center shrink-0 text-xs">✤</div>
+        <div class="rounded-2xl rounded-tl-none bg-white/10 p-3.5 text-white/90 leading-5 max-w-[85%]">
+          ¡Hola! Soy Valentina, tu anfitriona en Casa Botánica. Me encargo de que tu estadía sea perfecta desde antes de tu llegada. ¿En qué puedo consentirte hoy?
+        </div>
+      </div>
+
+      <!-- Quick prompts -->
+      <div class="grid gap-2 pt-2">
+        <button class="concierge-quick-btn text-left rounded-xl border border-gold/30 bg-gold/10 px-3.5 py-2.5 text-xs text-gold-light hover:bg-gold/20 transition">
+          ✦ ¿Cómo funciona la carta de almohadas y aromas?
+        </button>
+        <button class="concierge-quick-btn text-left rounded-xl border border-gold/30 bg-gold/10 px-3.5 py-2.5 text-xs text-gold-light hover:bg-gold/20 transition">
+          ✦ Quiero reservar la cata privada de vinos
+        </button>
+        <button class="concierge-quick-btn text-left rounded-xl border border-gold/30 bg-gold/10 px-3.5 py-2.5 text-xs text-gold-light hover:bg-gold/20 transition">
+          ✦ ¿Tienen servicio de recogida en el aeropuerto?
+        </button>
+      </div>
+    </div>
+
+    <!-- Input Form -->
+    <form id="concierge-input-form" class="border-t border-white/10 p-4 bg-forest-dark/80 flex items-center gap-2">
+      <input
+        id="concierge-user-input"
+        type="text"
+        placeholder="Escribe tu consulta o requerimiento especial..."
+        class="flex-1 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-xs text-white placeholder:text-white/40 outline-none focus:border-gold"
+        required
+      />
+      <button
+        type="submit"
+        class="rounded-xl bg-gold px-5 py-3 text-forest font-bold text-xs uppercase tracking-wider transition hover:bg-gold-soft shrink-0"
+        aria-label="Enviar mensaje"
+      >
+        Enviar
+      </button>
+    </form>
+
+    <!-- WhatsApp alternative link -->
+    <div class="bg-[#051711] px-5 py-3 border-t border-white/5 flex items-center justify-between text-[0.7rem] text-white/60">
+      <span>¿Prefieres WhatsApp directo?</span>
+      <a
+        href="https://wa.me/56912345678?text=Hola%20Casa%20Botanica,%20quisiera%20consultar%20sobre%20una%20estadia%20de%20descanso."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-emerald-400 hover:underline font-semibold flex items-center gap-1"
+      >
+        <span>Chatear por WhatsApp</span> →
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('concierge-modal');
+  const closeBtn = document.getElementById('close-concierge-modal');
+  const form = document.getElementById('concierge-input-form');
+  const input = document.getElementById('concierge-user-input') as HTMLInputElement | null;
+  const messagesContainer = document.getElementById('concierge-messages');
+  const quickBtns = document.querySelectorAll('.concierge-quick-btn');
+
+  const openConciergeModal = () => {
+    modal?.classList.remove('hidden');
+    modal?.classList.add('flex');
+    input?.focus();
+  };
+
+  const closeConciergeModal = () => {
+    modal?.classList.remove('flex');
+    modal?.classList.add('hidden');
+  };
+
+  (window as unknown as { openConciergeModal: typeof openConciergeModal }).openConciergeModal = openConciergeModal;
+
+  document.querySelectorAll('[data-open-concierge]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openConciergeModal();
+    });
+  });
+
+  closeBtn?.addEventListener('click', closeConciergeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeConciergeModal();
+  });
+
+  const appendUserMessage = (text: string) => {
+    if (!messagesContainer) return;
+    const userBubble = document.createElement('div');
+    userBubble.className = 'flex justify-end';
+    userBubble.innerHTML = `
+      <div class="rounded-2xl rounded-tr-none bg-gold text-forest font-medium p-3 max-w-[85%] leading-5">
+        ${text}
+      </div>
+    `;
+    messagesContainer.appendChild(userBubble);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  };
+
+  const appendConciergeReply = (text: string) => {
+    if (!messagesContainer) return;
+    const typing = document.createElement('div');
+    typing.className = 'flex gap-2 items-start text-white/50 text-[0.65rem] italic';
+    typing.innerHTML = `<span>Valentina está escribiendo...</span>`;
+    messagesContainer.appendChild(typing);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    setTimeout(() => {
+      typing.remove();
+      const replyBubble = document.createElement('div');
+      replyBubble.className = 'flex gap-2.5 items-start';
+      replyBubble.innerHTML = `
+        <div class="h-6 w-6 rounded-full bg-gold/20 text-gold grid place-items-center shrink-0 text-xs">✤</div>
+        <div class="rounded-2xl rounded-tl-none bg-white/10 p-3.5 text-white/90 leading-5 max-w-[85%]">
+          ${text}
+        </div>
+      `;
+      messagesContainer.appendChild(replyBubble);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 900);
+  };
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!input || !input.value.trim()) return;
+    const text = input.value.trim();
+    appendUserMessage(text);
+    input.value = '';
+
+    const lower = text.toLowerCase();
+    if (lower.includes('almohada') || lower.includes('aroma') || lower.includes('olor') || lower.includes('dormir')) {
+      appendConciergeReply('¡Por supuesto! Puedes configurar tu menú sensorial en cualquier momento haciendo clic en "Carta de Almohadas y Aromaterapia" o dejármelo indicado aquí y lo prepararemos antes de tu llegada.');
+    } else if (lower.includes('vino') || lower.includes('cata') || lower.includes('comer') || lower.includes('cena')) {
+      appendConciergeReply('La cata privada por los viñedos orgánicos se realiza a las 16:30 hrs con nuestro sommelier. Puedes añadirla en el paso de experiencias de tu reserva o pedírmela al llegar.');
+    } else if (lower.includes('aeropuerto') || lower.includes('traslado') || lower.includes('llegar') || lower.includes('auto')) {
+      appendConciergeReply('Contamos con chófer privado en vehículo híbrido de baja emisión. Solo indícanos tu número de vuelo y te recibiremos con toallas aromáticas frescas.');
+    } else {
+      appendConciergeReply('Excelente. He anotado tu consulta. Nuestro equipo de hospitalidad la ha integrado a tu perfil de huésped.');
+    }
+  });
+
+  quickBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.textContent?.trim() || '';
+      appendUserMessage(text);
+      if (text.includes('almohadas')) {
+        appendConciergeReply('Nuestra carta incluye 4 tipos de almohadas ergonómicas (pluma húngara, viscoelástica con lavanda, bambú termorregulador y látex natural). Puedes seleccionarlas gratis en tu reserva.');
+      } else if (text.includes('vinos')) {
+        appendConciergeReply('Incluye visita a 2 bodegas boutique del valle, maridaje de quesos de autor y degustación guiada de 5 cepas reserva.');
+      } else if (text.includes('aeropuerto')) {
+        appendConciergeReply('Sí, ofrecemos traslados ejecutivos 24/7 directos a la puerta de Casa Botánica.');
+      }
+    });
+  });
+</script>

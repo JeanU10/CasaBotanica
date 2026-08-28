@@ -1,221 +1,579 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BotanicalParticles from '../components/BotanicalParticles.astro';
+import ComfortQuiz from '../components/ComfortQuiz.astro';
+import { ROOMS_CATALOG } from '../scripts/bookingStore';
 
-const rooms = [
+const featuredRooms = ROOMS_CATALOG.slice(0, 3);
+
+const comfortHighlights = [
   {
-    name: 'Suite Botánica',
-    meta: '2 huéspedes · 1 cama King · 32 m²',
-    price: '$145.000',
-    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=88',
-    tag: 'La favorita'
+    title: 'Sábanas de 800 Hilos',
+    desc: 'Algodón egipcio peinado que acaricia la piel con suavidad de nube térmica.'
   },
   {
-    name: 'Habitación Deluxe',
-    meta: '2 huéspedes · 1 cama Queen · 28 m²',
-    price: '$115.000',
-    image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=88',
-    tag: 'Vista al jardín'
+    title: 'Aromaterapia de Habitación',
+    desc: 'Aceites esenciales de lavanda y cedro andino difundidos antes de tu llegada.'
   },
   {
-    name: 'Habitación Superior',
-    meta: '2 huéspedes · 1 cama Queen · 24 m²',
-    price: '$95.000',
-    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=88',
-    tag: 'Escapada perfecta'
+    title: 'Tina de Piedra Volcánica',
+    desc: 'Baños de inmersión con sales minerales y sales botánicas de romero.'
+  },
+  {
+    title: 'Infusión Nocturna de Cortesía',
+    desc: 'Té orgánico cosechado en nuestro huerto servido cada noche en tu suite.'
   }
 ];
 
-const benefits = [
-  ['✦', 'Atención personalizada', 'Un equipo cercano para cuidar cada momento.'],
-  ['♧', 'Bienestar y relajación', 'Spa, masajes y espacios creados para ti.'],
-  ['⌖', 'Experiencias locales', 'Rutas y actividades con anfitriones locales.'],
-  ['◇', 'Reserva segura', 'Tus datos y tu pago siempre protegidos.']
+const sanctuaryCorners = [
+  {
+    id: 'patio',
+    name: 'El Patio de Orquídeas',
+    desc: 'Un oasis de sombra fresca, helechos arborescentes y murmullo de agua cristalina para leer en absoluta quietud.',
+    image: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=88',
+    tag: 'Silencio y Naturaleza'
+  },
+  {
+    id: 'alberca',
+    name: 'Alberca de Piedra Climatizada',
+    desc: 'Piscina de inmersión en piedra termal volcánica rodeada de enredaderas y reposeras de madera de teca.',
+    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=88',
+    tag: 'Bienestar Hidrotermal'
+  },
+  {
+    id: 'cava',
+    name: 'Cava de Vinos del Valle',
+    desc: 'Colección subterránea de 120 etiquetas biodinámicas con catas personalizadas a la luz de las velas.',
+    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1200&q=88',
+    tag: 'Gastronomía de Autor'
+  },
+  {
+    id: 'huerto',
+    name: 'Huerto Terapéutico & Té',
+    desc: 'Plantas medicinales y aromáticas de donde nuestro botánico recolecta las infusiones de tu descanso.',
+    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=88',
+    tag: 'Origen Orgánico'
+  }
+];
+
+const testimonials = [
+  {
+    author: 'Elena & Carlos R.',
+    stay: 'Suite Botánica · Escapada de Aniversario',
+    quote: '«Desde el momento en que entras, el aroma a cedro y la brisa te transportan a otro estado de paz. Dormimos mejor que en ningún otro hotel en años. La carta de almohadas es un detalle exquisito.»',
+    rating: '5.0 / 5.0',
+    tags: ['Sueño 5/5', 'Spa 5/5', 'Privacidad 5/5']
+  },
+  {
+    author: 'Ignacio M.',
+    stay: 'Habitación Deluxe · Retiro de Escritura',
+    quote: '«El silencio del patio de orquídeas y el café de origen por la mañana me permitieron concentrarme y desconectar por completo. El equipo de concierge atiende con un cariño genuino.»',
+    rating: '5.0 / 5.0',
+    tags: ['Calma 5/5', 'Café de Autor 5/5', 'Concierge 5/5']
+  },
+  {
+    author: 'Sofía V.',
+    stay: 'Gran Villa Botánica · Fin de Semana Familiar',
+    quote: '«La piscina privada de piedra y el desayuno gourmet en la terraza superaron toda expectativa. Es un verdadero santuario dentro de la ciudad.»',
+    rating: '4.9 / 5.0',
+    tags: ['Exclusividad 5/5', 'Desayuno 5/5']
+  }
 ];
 ---
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="Casa Botánica, un hotel boutique donde la naturaleza, la calma y el diseño se encuentran." />
-    <meta name="theme-color" content="#0b2f24" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Casa Botánica — Hotel Boutique</title>
-  </head>
-  <body>
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-all duration-300" id="site-header">
-      <div class="shell flex h-20 items-center justify-between gap-8 lg:h-24">
-        <a href="#inicio" class="group flex items-center gap-3" aria-label="Casa Botánica, inicio">
-          <span class="grid h-10 w-10 place-items-center rounded-full border border-gold/70 text-2xl text-gold transition group-hover:rotate-12">✤</span>
-          <span class="leading-none">
-            <span class="display block text-[1.3rem] tracking-wide">CASA BOTÁNICA</span>
-            <span class="mt-1 block text-[.56rem] font-semibold tracking-[.3em] text-gold-soft">HOTEL BOUTIQUE</span>
+<BaseLayout title="Casa Botánica — Hotel Boutique & Santuario de Bienestar" showStickyBar={true}>
+  <!-- 1. Hero Inmersivo Editorial -->
+  <section id="inicio" class="relative min-h-[85vh] md:min-h-[90vh] overflow-hidden bg-[#07241c] text-white flex items-center">
+    <BotanicalParticles />
+
+    <img
+      src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2400&q=90"
+      alt="Terraza y jardines iluminados de Casa Botánica al atardecer"
+      class="absolute inset-0 h-full w-full object-cover scale-105 transition-transform duration-[10000ms] hover:scale-100 opacity-90"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-[#041c14]/95 via-[#041c14]/75 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#041c14] via-transparent to-black/30"></div>
+
+    <div class="shell relative z-20 py-16 sm:py-20">
+      <div class="max-w-3xl">
+        <div class="fade-up inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-forest/70 px-4 py-1.5 backdrop-blur-md mb-6">
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+          <span class="text-xs font-bold uppercase tracking-widest text-gold-soft">
+            Santuario Abierto · Experiencia Sensorial 2026
           </span>
-        </a>
+        </div>
 
-        <nav class="hidden items-center gap-8 text-sm font-medium xl:flex" aria-label="Navegación principal">
-          <a class="transition hover:text-gold-soft" href="#habitaciones">Habitaciones</a>
-          <a class="transition hover:text-gold-soft" href="#experiencias">Experiencias</a>
-          <a class="transition hover:text-gold-soft" href="#gastronomia">Gastronomía</a>
-          <a class="transition hover:text-gold-soft" href="#hotel">El hotel</a>
-          <a class="transition hover:text-gold-soft" href="#destino">Destino</a>
-        </nav>
+        <h1 class="fade-up display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.02] tracking-tight text-white">
+          Donde el silencio, la naturaleza y el descanso se encuentran.
+        </h1>
 
-        <div class="flex items-center gap-3">
-          <a href="/habitaciones" class="hidden rounded-xl border border-gold/60 bg-forest px-5 py-3 text-xs font-bold tracking-[.14em] transition hover:bg-forest-light sm:block">RESERVAR AHORA</a>
-          <button id="menu-button" class="grid h-11 w-11 place-items-center rounded-full border border-white/25 xl:hidden" aria-label="Abrir menú" aria-expanded="false">
-            <span class="text-xl">☰</span>
+        <p class="fade-up mt-6 max-w-xl text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-light">
+          Un hotel boutique concebido como un refugio de hospitalidad cálida. Desconecta entre sábanas de ensueño, aromaterapia orgánica y jardines secretos.
+        </p>
+
+        <div class="fade-up mt-8 flex flex-wrap items-center gap-4">
+          <a
+            href="#reservar"
+            class="btn-gold rounded-xl px-7 py-3.5 text-xs sm:text-sm font-bold tracking-widest uppercase text-forest shadow-xl"
+          >
+            Explorar Disponibilidad
+          </a>
+          <button
+            type="button"
+            data-open-sensory-modal
+            class="flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wider text-white backdrop-blur-md transition hover:bg-white/20 hover:border-gold"
+          >
+            <span>Carta de Almohadas & Aromas</span>
           </button>
         </div>
       </div>
-      <nav id="mobile-menu" class="glass hidden border-t border-white/10 px-6 py-5 xl:hidden" aria-label="Navegación móvil">
-        <div class="mx-auto grid max-w-xl gap-4 text-center text-sm">
-          <a href="#habitaciones">Habitaciones</a><a href="#experiencias">Experiencias</a><a href="#gastronomia">Gastronomía</a><a href="#hotel">El hotel</a><a href="#destino">Destino</a>
-        </div>
-      </nav>
-    </header>
+    </div>
 
-    <main>
-      <section id="inicio" class="relative min-h-[760px] overflow-hidden bg-forest text-white md:min-h-[840px]">
-        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=90" alt="Terraza iluminada de Casa Botánica al atardecer" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
-        <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,24,18,.88)_0%,rgba(4,24,18,.5)_43%,rgba(4,24,18,.18)_75%),linear-gradient(0deg,rgba(4,24,18,.5),transparent_50%)]"></div>
-        <div class="shell relative z-10 flex min-h-[760px] items-center pt-24 md:min-h-[840px]">
-          <div class="max-w-3xl pb-20 pt-12">
-            <p class="eyebrow mb-6 text-gold-soft">Bienvenido a Casa Botánica</p>
-            <h1 class="display max-w-3xl text-6xl font-medium leading-[.88] tracking-[-.035em] sm:text-7xl md:text-[6.7rem]">Una estadía que recordarás.</h1>
-            <p class="mt-8 max-w-lg text-base leading-7 text-white/80 md:text-lg">Un hotel boutique en el corazón de la ciudad, donde cada detalle está pensado para ti.</p>
-            <a href="#hotel" class="mt-9 inline-flex items-center gap-8 rounded-full border border-gold/70 bg-forest/80 px-7 py-4 text-xs font-bold tracking-[.13em] transition hover:bg-forest">DESCUBRIR EL HOTEL <span class="text-lg text-gold">→</span></a>
-          </div>
-        </div>
-        <div class="absolute bottom-5 right-5 z-10 hidden items-center gap-3 text-xs text-white/70 md:flex"><span class="h-px w-10 bg-gold"></span> Santiago · Chile</div>
-      </section>
+    <div class="absolute bottom-6 right-8 z-20 hidden lg:flex items-center gap-6 text-xs text-white/70">
+      <span class="flex items-center gap-2"><span class="text-gold">✦</span> Algodón 800 Hilos</span>
+      <span class="flex items-center gap-2"><span class="text-gold">✦</span> Menú de Aromaterapia</span>
+      <span class="flex items-center gap-2"><span class="text-gold">✦</span> Tina de Piedra Volcánica</span>
+    </div>
+  </section>
 
-      <section id="reservar" class="relative z-20 -mt-16 px-4">
-        <form id="booking-form" class="soft-shadow mx-auto grid max-w-5xl overflow-hidden rounded-2xl bg-paper md:grid-cols-[1fr_1fr_1fr_1.35fr]" aria-label="Buscar disponibilidad">
-          <label class="border-b border-stone-200 px-6 py-5 md:border-b-0 md:border-r">
-            <span class="text-[.62rem] font-bold tracking-[.14em] text-stone-500">ENTRADA</span>
-            <input name="entrada" type="date" value="2026-08-12" class="mt-2 w-full bg-transparent text-sm font-semibold outline-none" required />
-          </label>
-          <label class="border-b border-stone-200 px-6 py-5 md:border-b-0 md:border-r">
-            <span class="text-[.62rem] font-bold tracking-[.14em] text-stone-500">SALIDA</span>
-            <input name="salida" type="date" value="2026-08-15" class="mt-2 w-full bg-transparent text-sm font-semibold outline-none" required />
-          </label>
-          <label class="border-b border-stone-200 px-6 py-5 md:border-b-0 md:border-r">
-            <span class="text-[.62rem] font-bold tracking-[.14em] text-stone-500">HUÉSPEDES</span>
-            <select name="huespedes" class="mt-2 w-full bg-transparent text-sm font-semibold outline-none">
-              <option>2 adultos</option><option>1 adulto</option><option>3 adultos</option><option>Familia · 4 huéspedes</option>
-            </select>
-          </label>
-          <div class="p-3"><button class="h-full min-h-16 w-full rounded-xl bg-forest px-5 text-xs font-bold tracking-[.12em] text-white transition hover:bg-forest-light">BUSCAR DISPONIBILIDAD</button></div>
-        </form>
-      </section>
+  <!-- 2. El Arte del Descanso -->
+  <section id="descanso" class="shell py-20 lg:py-28">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="fade-up">
+        <span class="eyebrow">La Esencia de Casa Botánica</span>
+        <h2 class="display mt-3 text-3xl sm:text-4xl md:text-5xl font-medium leading-[1.05] text-forest">
+          Diseñado para envolverte en calma absoluta.
+        </h2>
+        <span class="mt-5 block h-0.5 w-16 bg-gold"></span>
+        <p class="mt-6 text-sm md:text-base leading-relaxed text-stone-600 font-normal">
+          Creemos que el verdadero lujo no radica en la ostentación, sino en la sensación de quitarse los zapatos, inhalar el aroma fresco del bosque y descansar en una cama que parece abrazarte. Cada elemento ha sido seleccionado artesanalmente para favorecer tu descanso profundo.
+        </p>
 
-      <section id="hotel" class="shell grid items-center gap-12 py-24 lg:grid-cols-[.78fr_1.22fr] lg:py-32">
-        <div class="fade-up lg:pr-10">
-          <p class="eyebrow">Experiencias únicas</p>
-          <h2 class="display mt-5 text-5xl font-medium leading-[.98] md:text-6xl">Hospitalidad que nace de los detalles</h2>
-          <span class="mt-7 block h-px w-12 bg-gold"></span>
-          <p class="mt-7 max-w-md text-sm leading-7 text-stone-600">En Casa Botánica, la elegancia se encuentra con la calidez. Disfruta de un servicio personalizado, espacios llenos de historia y momentos que harán de tu viaje algo inolvidable.</p>
-          <a href="#experiencias" class="mt-8 inline-flex items-center gap-5 text-xs font-bold tracking-[.13em] text-forest">CONOCE NUESTRA HISTORIA <span class="text-gold">→</span></a>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          {comfortHighlights.map(item => (
+            <div class="rounded-2xl border border-stone-200/80 bg-paper p-5 transition hover:border-gold/50 hover:shadow-md">
+              <span class="text-gold font-bold text-xs uppercase tracking-wider block">✦ Bienestar</span>
+              <h3 class="display text-lg font-semibold text-forest mt-1.5">{item.title}</h3>
+              <p class="mt-1 text-xs text-stone-500 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
         </div>
-        <div class="fade-up relative overflow-hidden rounded-2xl">
-          <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1500&q=90" alt="Salón interior del hotel con vegetación y luz cálida" loading="lazy" class="h-[430px] w-full object-cover md:h-[520px]" />
-          <div class="absolute bottom-5 left-5 rounded-xl bg-paper/95 px-5 py-4 backdrop-blur"><p class="display text-2xl">Un refugio urbano</p><p class="mt-1 text-xs text-stone-500">Diseño, naturaleza y calma</p></div>
-        </div>
-      </section>
 
-      <section id="habitaciones" class="bg-[#f0ece4] py-24 lg:py-28">
-        <div class="shell">
-          <div class="fade-up flex items-end justify-between gap-6">
-            <div><p class="eyebrow">Descansa con estilo</p><h2 class="display mt-3 text-5xl font-medium md:text-6xl">Nuestras habitaciones</h2></div>
-            <a href="#reservar" class="hidden text-xs font-bold tracking-[.12em] text-forest sm:inline-flex">VER TODAS &nbsp; →</a>
-          </div>
-          <div class="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-            {rooms.map((room) => (
-              <article class="room-card fade-up overflow-hidden rounded-2xl bg-paper">
-                <div class="relative h-72 overflow-hidden"><img src={room.image} alt={room.name} loading="lazy" class="h-full w-full object-cover" /><span class="absolute left-5 top-5 rounded-full bg-paper/90 px-3 py-1.5 text-[.58rem] font-bold uppercase tracking-[.13em] text-forest backdrop-blur">{room.tag}</span></div>
-                <div class="p-6">
-                  <h3 class="display text-3xl font-semibold">{room.name}</h3>
-                  <p class="mt-2 text-xs text-stone-500">{room.meta}</p>
-                  <div class="mt-7 flex items-end justify-between border-t border-stone-200 pt-5"><div><p class="text-[.62rem] uppercase tracking-widest text-stone-500">Desde</p><p class="display text-3xl">{room.price}<span class="ml-1 font-sans text-[.65rem] text-stone-500">/ noche</span></p></div><a href="#reservar" aria-label={`Reservar ${room.name}`} class="grid h-11 w-11 place-items-center rounded-full border border-gold text-lg text-forest transition hover:bg-forest hover:text-white">→</a></div>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div class="mt-8 flex items-center gap-4">
+          <button
+            type="button"
+            data-open-sensory-modal
+            class="btn-gold rounded-xl px-6 py-3.5 text-xs sm:text-sm font-bold tracking-wider text-forest uppercase"
+          >
+            Personalizar mi Carta de Almohadas
+          </button>
         </div>
-      </section>
-
-      <section id="experiencias" class="relative overflow-hidden bg-forest py-24 text-white lg:py-32">
-        <div class="absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_20%_20%,#c89c52_0,transparent_28%),radial-gradient(circle_at_90%_70%,#c89c52_0,transparent_22%)]"></div>
-        <div class="shell relative grid items-center gap-12 lg:grid-cols-2">
-          <div class="fade-up grid grid-cols-2 gap-4">
-            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=85" alt="Experiencia de masaje" loading="lazy" class="mt-12 h-80 w-full rounded-2xl object-cover" />
-            <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=900&q=85" alt="Cata de vinos local" loading="lazy" class="h-80 w-full rounded-2xl object-cover" />
-          </div>
-          <div class="fade-up lg:pl-12">
-            <p class="eyebrow text-gold-soft">Más que una estadía</p>
-            <h2 class="display mt-4 text-5xl font-medium leading-none md:text-6xl">Momentos que se quedan contigo</h2>
-            <p class="mt-7 max-w-lg leading-7 text-white/70">Descubre bienestar, gastronomía de estación y rutas privadas diseñadas por nuestro concierge. Cada experiencia nace del paisaje y de las personas que le dan vida.</p>
-            <div class="mt-10 grid grid-cols-2 gap-y-7 text-sm"><p>✦ Spa & bienestar</p><p>✦ Cocina de autor</p><p>✦ Viñedos privados</p><p>✦ Rutas culturales</p></div>
-            <a href="#reservar" class="mt-10 inline-flex rounded-full bg-gold px-7 py-4 text-xs font-bold tracking-[.12em] text-forest transition hover:bg-gold-soft">EXPLORAR EXPERIENCIAS</a>
-          </div>
-        </div>
-      </section>
-
-      <section id="gastronomia" class="shell py-24 lg:py-28">
-        <div class="fade-up rounded-3xl bg-paper p-8 soft-shadow md:p-12">
-          <div class="grid divide-y divide-stone-200 md:grid-cols-4 md:divide-x md:divide-y-0">
-            {benefits.map(([icon, title, text]) => <div class="px-4 py-6 first:pl-0 last:pr-0 md:py-2"><span class="text-3xl text-gold">{icon}</span><h3 class="mt-4 font-semibold text-forest">{title}</h3><p class="mt-2 text-xs leading-5 text-stone-500">{text}</p></div>)}
-          </div>
-        </div>
-      </section>
-
-      <section id="destino" class="relative min-h-[480px] overflow-hidden text-white">
-        <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=88" alt="Paisaje de viñedos al amanecer" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
-        <div class="absolute inset-0 bg-forest/65"></div>
-        <div class="shell relative flex min-h-[480px] items-center justify-center py-16 text-center">
-          <div class="fade-up max-w-2xl"><p class="eyebrow text-gold-soft">Tu próximo recuerdo empieza aquí</p><h2 class="display mt-4 text-5xl font-medium md:text-7xl">Vive Casa Botánica</h2><p class="mx-auto mt-6 max-w-lg text-sm leading-7 text-white/75">Permítenos crear una estadía a tu medida, llena de calma, sabores y descubrimientos.</p><a href="#reservar" class="mt-8 inline-flex rounded-full bg-paper px-8 py-4 text-xs font-bold tracking-[.13em] text-forest">RESERVAR MI ESTADÍA</a></div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="bg-[#06251c] py-14 text-white">
-      <div class="shell grid gap-10 md:grid-cols-[1.1fr_1fr_1fr]">
-        <div><div class="display text-2xl">✤ &nbsp; CASA BOTÁNICA</div><p class="mt-2 text-[.6rem] tracking-[.25em] text-gold-soft">HOTEL BOUTIQUE</p><p class="mt-5 max-w-xs text-xs leading-6 text-white/55">Un oasis de naturaleza, diseño y hospitalidad en el corazón de la ciudad.</p></div>
-        <div><p class="eyebrow text-gold-soft">Contáctanos</p><div class="mt-5 space-y-3 text-xs text-white/65"><p>+56 9 1234 5678</p><p>hola@casabotanica.cl</p><p>Calle del Jardín 123, Centro Histórico</p></div></div>
-        <div><p class="eyebrow text-gold-soft">Newsletter</p><p class="mt-5 text-xs text-white/60">Recibe ofertas exclusivas y novedades.</p><form id="newsletter-form" class="mt-4 flex overflow-hidden rounded-xl border border-white/20"><input type="email" placeholder="Tu correo electrónico" aria-label="Correo electrónico" class="min-w-0 flex-1 bg-transparent px-4 py-3 text-xs outline-none placeholder:text-white/35" required /><button class="w-12 bg-gold text-xl text-forest" aria-label="Suscribirse">→</button></form></div>
       </div>
-      <div class="shell mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-[.65rem] text-white/40 sm:flex-row sm:justify-between"><p>© 2026 Casa Botánica Hotel Boutique.</p><p>Privacidad &nbsp; · &nbsp; Términos y condiciones</p></div>
-    </footer>
 
-    <div id="toast" class="pointer-events-none fixed bottom-5 left-1/2 z-[60] -translate-x-1/2 translate-y-5 rounded-full bg-forest px-6 py-3 text-sm text-white opacity-0 shadow-xl transition-all duration-300" role="status"></div>
+      <div class="fade-up relative">
+        <div class="relative overflow-hidden rounded-3xl shadow-2xl border border-gold/30 aspect-[4/3] md:aspect-[3/4] lg:aspect-[4/3]">
+          <img
+            src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=90"
+            alt="Suite Botánica y detalle de cama y sábanas de lujo"
+            class="h-full w-full object-cover"
+          />
+          <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 rounded-2xl bg-paper/95 p-4 sm:p-5 backdrop-blur-md border border-gold/30 shadow-lg">
+            <span class="eyebrow text-gold">Ritual del Buen Dormir</span>
+            <p class="display text-lg sm:text-xl text-forest mt-1">«El descanso no es una pausa, es una reconexión.»</p>
+            <p class="mt-1 text-xs text-stone-500">Suite Botánica · Selección de aromaterapia incluida</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-      const header = document.querySelector('#site-header');
-      const menuButton = document.querySelector('#menu-button');
-      const mobileMenu = document.querySelector('#mobile-menu');
-      const toast = document.querySelector('#toast');
-      const showToast = (message: string) => {
-        if (!(toast instanceof HTMLElement)) return;
-        toast.textContent = message;
-        toast.classList.remove('opacity-0', 'translate-y-5');
-        window.setTimeout(() => toast.classList.add('opacity-0', 'translate-y-5'), 3200);
-      };
-      const updateHeader = () => header?.classList.toggle('glass', window.scrollY > 30);
-      updateHeader(); window.addEventListener('scroll', updateHeader, { passive: true });
-      menuButton?.addEventListener('click', () => {
-        mobileMenu?.classList.toggle('hidden');
-        const open = !mobileMenu?.classList.contains('hidden');
-        menuButton.setAttribute('aria-expanded', String(open));
-      });
-      mobileMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
-      document.querySelector('#booking-form')?.addEventListener('submit', (event) => { event.preventDefault(); window.location.href = '/habitaciones'; });
-      document.querySelector('#newsletter-form')?.addEventListener('submit', (event) => { event.preventDefault(); showToast('¡Gracias! Pronto recibirás noticias de Casa Botánica.'); });
-      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.target.classList.toggle('visible', entry.isIntersecting)), { threshold: .12 });
-      document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
-    </script>
-  </body>
-</html>
+  <!-- 3. Sobre Nosotros -->
+  <section id="nosotros" class="overflow-hidden border-y border-stone-200/70 bg-paper py-20 lg:py-28">
+    <div class="shell grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+      <div class="fade-up relative min-h-[440px] sm:min-h-[560px]">
+        <div class="absolute inset-x-0 top-0 h-[78%] overflow-hidden rounded-3xl border border-gold/25 shadow-2xl sm:right-20">
+          <img
+            src="/images/about-team.webp"
+            alt="Equipo de Casa Botánica preparando la bienvenida en el patio interior"
+            loading="lazy"
+            class="h-full w-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-forest/35 via-transparent to-transparent"></div>
+        </div>
+
+        <div class="absolute bottom-0 right-0 w-[48%] overflow-hidden rounded-3xl border-4 border-paper bg-paper shadow-2xl sm:w-[44%]">
+          <img
+            src="/images/about-ritual.webp"
+            alt="Ritual de bienvenida con cerámica artesanal e infusión botánica"
+            loading="lazy"
+            class="aspect-[4/5] h-full w-full object-cover"
+          />
+        </div>
+
+        <div class="absolute bottom-5 left-5 max-w-[58%] rounded-2xl border border-white/20 bg-[#08241b]/92 p-4 text-white shadow-xl backdrop-blur-md sm:bottom-8 sm:left-8 sm:max-w-xs sm:p-5">
+          <span class="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-gold-light">Nuestra forma de recibir</span>
+          <p class="display mt-1 text-lg leading-tight sm:text-xl">Cada detalle comienza antes de tu llegada.</p>
+        </div>
+      </div>
+
+      <div class="fade-up lg:pl-4">
+        <span class="eyebrow">Sobre Nosotros</span>
+        <h2 class="display mt-3 text-3xl font-medium leading-[1.05] text-forest sm:text-4xl md:text-5xl">
+          Una casa nacida para devolverle tiempo al descanso.
+        </h2>
+        <span class="mt-5 block h-0.5 w-16 bg-gold"></span>
+
+        <div class="mt-6 space-y-4 text-sm leading-relaxed text-stone-600 md:text-base">
+          <p>
+            Casa Botánica nació de una idea sencilla: la hospitalidad más memorable no necesita imponerse, necesita escuchar. Por eso transformamos una casa de carácter patrimonial en un refugio íntimo donde la arquitectura, la vegetación y el servicio se mueven al ritmo de cada huésped.
+          </p>
+          <p>
+            Somos un equipo de anfitriones, artesanos y amantes de la naturaleza. Trabajamos con cerámica local, productos de temporada y rituales de bienestar personalizados para que cada estadía se sienta cercana, serena y genuinamente propia.
+          </p>
+        </div>
+
+        <blockquote class="mt-7 border-l-2 border-gold pl-5">
+          <p class="display text-2xl italic leading-tight text-forest">«Más que alojar, cuidamos la forma en que llegas, descansas y recuerdas.»</p>
+        </blockquote>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-3">
+          <div class="rounded-2xl border border-stone-200/80 bg-ivory p-4">
+            <span class="text-gold">✦</span>
+            <h3 class="mt-2 text-xs font-bold uppercase tracking-wider text-forest">Hospitalidad atenta</h3>
+            <p class="mt-1 text-xs leading-relaxed text-stone-500">Presencia cercana, discreta y disponible cuando la necesitas.</p>
+          </div>
+          <div class="rounded-2xl border border-stone-200/80 bg-ivory p-4">
+            <span class="text-gold">✦</span>
+            <h3 class="mt-2 text-xs font-bold uppercase tracking-wider text-forest">Naturaleza cotidiana</h3>
+            <p class="mt-1 text-xs leading-relaxed text-stone-500">Plantas, aromas y materiales honestos integrados al descanso.</p>
+          </div>
+          <div class="rounded-2xl border border-stone-200/80 bg-ivory p-4">
+            <span class="text-gold">✦</span>
+            <h3 class="mt-2 text-xs font-bold uppercase tracking-wider text-forest">Lujo con propósito</h3>
+            <p class="mt-1 text-xs leading-relaxed text-stone-500">Menos exceso, más calidad, calma y experiencias con sentido.</p>
+          </div>
+        </div>
+
+        <a href="/habitaciones" class="btn-gold mt-8 rounded-xl px-6 py-3.5 text-xs font-bold tracking-wider text-forest uppercase">
+          Conocer nuestros refugios →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Habitaciones & Suites Destacadas -->
+  <section id="habitaciones" class="bg-[#efebe2] py-20 lg:py-28 transition-colors">
+    <div class="shell">
+      <div class="fade-up flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <span class="eyebrow">Habitaciones & Refugios</span>
+          <h2 class="display mt-2 text-3xl sm:text-4xl md:text-5xl font-medium text-forest">
+            Nuestros Espacios de Descanso
+          </h2>
+        </div>
+        <a
+          href="/habitaciones"
+          class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-forest uppercase hover:text-gold transition"
+        >
+          <span>Ver catálogo completo ({ROOMS_CATALOG.length} suites)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {featuredRooms.map((room) => (
+          <article class="room-card group fade-up overflow-hidden rounded-3xl border border-stone-200/80 bg-paper soft-shadow flex flex-col justify-between">
+            <div>
+              <div class="relative h-64 sm:h-72 overflow-hidden">
+                <img
+                  src={room.image}
+                  alt={room.name}
+                  loading="lazy"
+                  class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+                <span class="absolute left-4 top-4 rounded-full bg-paper/95 px-3.5 py-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-forest backdrop-blur-md shadow">
+                  {room.tag}
+                </span>
+                <button
+                  type="button"
+                  data-open-sensory-modal
+                  class="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-forest/70 text-gold backdrop-blur-md hover:bg-forest transition text-xs font-bold"
+                  title="Carta de confort para esta habitación"
+                >
+                  ✦
+                </button>
+              </div>
+
+              <div class="p-6 md:p-7">
+                <h3 class="display text-2xl md:text-3xl font-semibold text-forest">
+                  {room.name}
+                </h3>
+                <p class="mt-2 text-xs text-stone-500 font-medium">
+                  {room.capacity} · {room.bed} · {room.size}
+                </p>
+                <p class="mt-4 text-xs leading-relaxed text-stone-600 line-clamp-2 font-normal">
+                  {room.description}
+                </p>
+              </div>
+            </div>
+
+            <div class="p-6 md:p-7 pt-0 border-t border-stone-200/60 mt-4 flex items-end justify-between">
+              <div>
+                <span class="text-[0.62rem] uppercase tracking-widest text-stone-500 font-semibold block">Tarifa por noche</span>
+                <p class="display text-2xl md:text-3xl font-bold text-forest">
+                  ${room.priceCLP.toLocaleString('es-CL')} <span class="font-sans text-xs font-normal text-stone-500">CLP</span>
+                </p>
+              </div>
+              <a
+                href={`/habitaciones`}
+                class="btn-gold rounded-xl px-5 py-2.5 text-xs font-bold tracking-wider text-forest uppercase"
+              >
+                Reservar →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Quiz Interactivo -->
+  <section id="personalizar" class="shell py-20 lg:py-28">
+    <div class="fade-up">
+      <ComfortQuiz />
+    </div>
+  </section>
+
+  <!-- 6. Experiencias Sensoriales -->
+  <section id="experiencias" class="relative overflow-hidden bg-forest py-20 text-white lg:py-28">
+    <div class="absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_20%_20%,#c89c52_0,transparent_28%),radial-gradient(circle_at_90%_70%,#c89c52_0,transparent_22%)]"></div>
+
+    <div class="shell relative grid items-center gap-12 lg:grid-cols-2">
+      <div class="fade-up grid grid-cols-2 gap-4">
+        <div class="space-y-4">
+          <img
+            src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=85"
+            alt="Masaje botánico relajante"
+            loading="lazy"
+            class="h-64 sm:h-72 w-full rounded-3xl object-cover shadow-xl"
+          />
+          <div class="rounded-2xl border border-gold/20 bg-forest-dark/70 p-4">
+            <b class="text-xs text-gold-light">Spa & Piedras Volcánicas</b>
+            <p class="text-xs text-white/70 mt-1">Masajes terapéuticos a la carta.</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 pt-8">
+          <div class="rounded-2xl border border-gold/20 bg-forest-dark/70 p-4">
+            <b class="text-xs text-gold-light">Cata de Vinos Orgánicos</b>
+            <p class="text-xs text-white/70 mt-1">Cepas del valle con sommelier.</p>
+          </div>
+          <img
+            src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=85"
+            alt="Cata de vinos en viñedos cercanos"
+            loading="lazy"
+            class="h-64 sm:h-72 w-full rounded-3xl object-cover shadow-xl"
+          />
+        </div>
+      </div>
+
+      <div class="fade-up lg:pl-8">
+        <span class="eyebrow text-gold-soft">Momentos Inolvidables</span>
+        <h2 class="display mt-3 text-3xl sm:text-4xl md:text-5xl font-medium leading-tight text-white">
+          Experiencias que reconectan tu espíritu.
+        </h2>
+        <p class="mt-5 text-sm md:text-base leading-relaxed text-white/75 font-light">
+          Tu estadía se extiende más allá de la habitación. Diseñamos vivencias botánicas, sesiones de spa privadas, desayunos flotantes y recorridos en viñedos sustentables para que cada instante tenga significado.
+        </p>
+
+        <div class="mt-8 grid grid-cols-2 gap-3.5 text-xs font-semibold">
+          <div class="rounded-xl border border-white/10 bg-white/5 p-3.5">
+            <span class="text-gold">✦</span> Masajes a 4 Manos
+          </div>
+          <div class="rounded-xl border border-white/10 bg-white/5 p-3.5">
+            <span class="text-gold">✦</span> Desayuno en la Cama
+          </div>
+          <div class="rounded-xl border border-white/10 bg-white/5 p-3.5">
+            <span class="text-gold">✦</span> Ruta Privada de Vinos
+          </div>
+          <div class="rounded-xl border border-white/10 bg-white/5 p-3.5">
+            <span class="text-gold">✦</span> Noches con Velas & Tina
+          </div>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href="/reserva/experiencias"
+            class="btn-gold rounded-xl px-7 py-3.5 text-xs sm:text-sm font-bold tracking-widest uppercase text-forest"
+          >
+            Ver Experiencias
+          </a>
+          <button
+            type="button"
+            data-open-concierge
+            class="rounded-xl border border-white/30 bg-white/5 px-6 py-3.5 text-xs sm:text-sm font-semibold text-white transition hover:bg-white/10"
+          >
+            Consultar al Concierge
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Rincones Secretos -->
+  <section id="santuario" class="shell py-20 lg:py-28">
+    <div class="fade-up text-center max-w-2xl mx-auto">
+      <span class="eyebrow">Exploración & Paz</span>
+      <h2 class="display mt-2 text-3xl sm:text-4xl md:text-5xl font-medium text-forest">
+        Los Rincones Secretos del Hotel
+      </h2>
+      <p class="mt-3 text-sm text-stone-600">
+        Espacios íntimos diseñados para perder la noción del tiempo y entregarse a la lectura, el vino y la calma.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {sanctuaryCorners.map(corner => (
+        <div class="fade-up overflow-hidden rounded-3xl border border-stone-200/80 bg-paper soft-shadow flex flex-col justify-between group">
+          <div class="relative h-52 sm:h-56 overflow-hidden">
+            <img
+              src={corner.image}
+              alt={corner.name}
+              loading="lazy"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-wider text-forest backdrop-blur-md">
+              {corner.tag}
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="display text-xl font-semibold text-forest">{corner.name}</h3>
+              <p class="mt-2 text-xs leading-relaxed text-stone-500 font-normal">{corner.desc}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 8. Testimonios -->
+  <section class="bg-forest py-20 text-white">
+    <div class="shell">
+      <div class="fade-up text-center max-w-2xl mx-auto">
+        <span class="eyebrow text-gold-soft">Historias de Huéspedes</span>
+        <h2 class="display mt-2 text-3xl sm:text-4xl md:text-5xl font-medium text-white">
+          La Voz de Quienes Descansaron Aquí
+        </h2>
+      </div>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-3">
+        {testimonials.map(t => (
+          <div class="fade-up rounded-3xl border border-gold/20 bg-forest-dark/60 p-7 flex flex-col justify-between shadow-xl backdrop-blur-md">
+            <div>
+              <div class="flex items-center justify-between text-gold">
+                <span class="text-xs font-semibold uppercase tracking-wider">Valoración</span>
+                <span class="text-xs font-bold">{t.rating}</span>
+              </div>
+              <p class="mt-4 text-xs md:text-sm leading-relaxed text-white/80 font-light italic">
+                {t.quote}
+              </p>
+            </div>
+            <div class="mt-6 border-t border-white/10 pt-4">
+              <b class="display text-lg block text-white">{t.author}</b>
+              <p class="text-xs text-gold-soft">{t.stay}</p>
+              <div class="mt-3 flex flex-wrap gap-1.5">
+                {t.tags.map(tag => (
+                  <span class="rounded-full bg-white/10 px-2.5 py-0.5 text-[0.62rem] font-medium text-white/70">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Footer Editorial -->
+  <footer class="bg-[#051a13] py-16 text-white border-t border-white/10">
+    <div class="shell grid gap-10 md:grid-cols-[1.3fr_1fr_1.2fr]">
+      <div>
+        <div class="display text-2xl font-medium flex items-center gap-2">
+          <span class="text-gold">✤</span> CASA BOTÁNICA
+        </div>
+        <p class="mt-1 text-[0.62rem] tracking-[0.24em] text-gold-soft font-semibold uppercase">
+          Hotel Boutique & Sanctuary
+        </p>
+        <p class="mt-5 max-w-sm text-xs md:text-sm leading-relaxed text-white/60 font-light">
+          Un santuario botánico de descanso consciente, diseño mediterráneo-nórdico y hospitalidad dedicada en el corazón de la ciudad.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            data-open-sensory-modal
+            class="rounded-xl border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-bold text-gold-light hover:bg-gold/20 transition"
+          >
+            Carta de Almohadas
+          </button>
+          <button
+            type="button"
+            data-open-concierge
+            class="rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-xs font-bold text-white hover:bg-white/10 transition"
+          >
+            Concierge 24/7
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <span class="eyebrow text-gold-soft">Contacto & Ubicación</span>
+        <div class="mt-4 space-y-2.5 text-xs md:text-sm text-white/70">
+          <p>+56 9 1234 5678</p>
+          <p>reservas@casabotanica.cl</p>
+          <p>Calle del Jardín Secreto 123, Barrio Histórico</p>
+          <p class="text-emerald-400 font-medium">Check-in: 15:00 hrs · Check-out: 12:00 hrs</p>
+        </div>
+      </div>
+
+      <div>
+        <span class="eyebrow text-gold-soft">Boletín del Santuario</span>
+        <p class="mt-4 text-xs md:text-sm text-white/65 leading-relaxed font-light">
+          Recibe invitaciones a temporadas de desconexión, cartas gastronómicas y tarifas privadas para miembros.
+        </p>
+        <form id="newsletter-form" class="mt-4 flex overflow-hidden rounded-xl border border-white/20">
+          <input
+            type="email"
+            placeholder="Tu correo electrónico..."
+            class="flex-1 bg-white/5 px-4 py-3 text-xs text-white placeholder:text-white/40 outline-none focus:bg-white/10 min-w-0"
+            required
+          />
+          <button class="bg-gold px-5 text-forest font-bold text-xs tracking-wider uppercase hover:bg-gold-soft transition shrink-0">
+            Unirme
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="shell mt-12 border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/40">
+      <p>© 2026 Casa Botánica Hotel Boutique. Todos los derechos reservados.</p>
+      <p>Privacidad & Confort · Términos del Santuario · Sostenibilidad Botánica</p>
+    </div>
+  </footer>
+</BaseLayout>
+
+<script>
+  const newsletterForm = document.getElementById('newsletter-form');
+
+  newsletterForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const toast = document.getElementById('toast');
+    if (toast) {
+      toast.textContent = '¡Bienvenido! Hemos registrado tu correo para privilegios del santuario.';
+      toast.classList.remove('opacity-0', 'translate-y-5');
+      setTimeout(() => toast.classList.add('opacity-0', 'translate-y-5'), 4000);
+    }
+  });
+</script>

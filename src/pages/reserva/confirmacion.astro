@@ -1,4 +1,542 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Reserva confirmada — Casa Botánica"><section class="relative overflow-hidden bg-forest py-14 text-white"><div class="absolute inset-0 opacity-30 [background:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=80')_center/cover]"></div><div class="shell relative"><p class="text-4xl text-gold">✓</p><h1 class="display mt-2 text-6xl">¡Tu reserva está confirmada!</h1><p class="mt-3 text-white/75">Gracias, Jean Pierre. Nos vemos pronto.</p><p class="mt-2 text-sm text-white/60">Enviamos los detalles a jeanpierre@mail.com</p></div></section><section class="shell grid gap-6 py-10 lg:grid-cols-[1.2fr_.8fr]"><div class="rounded-2xl bg-paper p-7 soft-shadow"><p class="eyebrow">Detalles de tu estadía</p><div class="mt-5 flex flex-col gap-5 sm:flex-row"><img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=700&q=85" class="h-40 w-full rounded-xl object-cover sm:w-64" alt="Suite Botánica"/><div><h2 class="display text-4xl">Suite Botánica</h2><p class="mt-2 text-sm text-stone-500">2 huéspedes · 1 cama King · 32 m²</p><div class="mt-5 grid grid-cols-3 gap-6 text-xs"><div><p class="text-stone-500">Entrada</p><b>12 Ago 2026</b></div><div><p class="text-stone-500">Salida</p><b>15 Ago 2026</b></div><div><p class="text-stone-500">Noches</p><b>3 noches</b></div></div></div></div><div class="mt-7 rounded-xl bg-ivory p-6 text-center"><p class="eyebrow">Número de reserva</p><p class="display mt-2 text-5xl">BTQ-58241</p><p class="mt-1 text-xs text-stone-500">Guarda este número para cualquier consulta.</p></div></div><aside class="rounded-2xl bg-paper p-7 soft-shadow"><h2 class="display text-3xl">Resumen de tu reserva</h2><div class="mt-6 space-y-3 text-sm"><div class="flex justify-between"><span>Suite Botánica · 3 noches</span><b>$435.000</b></div><div class="flex justify-between"><span>Servicios agregados</span><b>$97.000</b></div><div class="flex justify-between"><span>Impuestos y cargos</span><b>$65.250</b></div><div class="mt-5 flex items-end justify-between border-t border-stone-200 pt-5"><b>Total pagado</b><p class="display text-4xl">$597.250</p></div></div><div class="mt-7 space-y-3">{['Agregar a calendario','Enviar confirmación por email','Descargar comprobante','Contactar con concierge'].map(x=><button class="w-full rounded-xl border border-stone-200 px-4 py-3 text-left text-sm">{x} <span class="float-right">→</span></button>)}</div><a href="/" class="mt-6 block rounded-xl bg-forest px-6 py-4 text-center text-sm font-bold text-white">Volver al inicio</a></aside></section></BaseLayout>
+
+<BaseLayout title="Reserva Confirmada — Casa Botánica" showStickyBar={false}>
+  <!-- Celebration Top Hero -->
+  <section class="relative overflow-hidden bg-[#07241c] py-16 text-white border-b border-white/10">
+    <div class="absolute inset-0 opacity-25 [background:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=80')_center/cover]"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#07241c] via-[#07241c]/60 to-transparent"></div>
+
+    <div class="shell relative z-10 text-center max-w-2xl mx-auto">
+      <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-gold text-2xl text-forest shadow-2xl">
+        ✓
+      </div>
+      <span class="eyebrow text-gold-soft mt-6 block">Reserva Exitosa & Garantizada</span>
+      <h1 class="display mt-2 text-4xl sm:text-5xl md:text-6xl font-medium text-white">
+        ¡Tu refugio te espera!
+      </h1>
+      <p id="conf-guest-greeting" class="mt-3 text-sm md:text-base text-white/80 font-light">
+        Gracias, <span class="font-semibold text-white">Jean Pierre</span>. Hemos preparado todo para tu estadía de descanso.
+      </p>
+      <p id="conf-guest-email-note" class="mt-1 text-xs text-white/60">
+        Enviamos el voucher digital y detalles de acceso a <span class="text-gold-soft">jeanpierre@mail.com</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Reservation Card Details -->
+  <section class="shell grid gap-10 py-12 lg:grid-cols-[1.3fr_0.9fr] items-start">
+    <!-- Left: Detailed Stay Summary & Comfort Specs -->
+    <div class="space-y-6">
+      <!-- Voucher Box -->
+      <div class="rounded-3xl border border-stone-200/80 bg-paper p-7 md:p-8 soft-shadow">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-5">
+          <div>
+            <span class="eyebrow text-gold">Código Único de Reserva</span>
+            <p id="conf-booking-code" class="display mt-1 text-3xl md:text-4xl font-bold text-forest">
+              CB-93821
+            </p>
+          </div>
+          <button
+            id="copy-code-btn"
+            type="button"
+            class="rounded-xl border border-stone-300 bg-ivory px-4 py-2 text-xs font-semibold text-forest hover:bg-stone-200 transition uppercase tracking-wider"
+          >
+            Copiar Código
+          </button>
+        </div>
+
+        <!-- Room and Stay Dates -->
+        <div class="mt-6 flex flex-col sm:flex-row gap-5">
+          <img
+            id="conf-room-img"
+            src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=700&q=85"
+            alt="Habitación confirmada"
+            class="h-44 w-full sm:w-56 rounded-2xl object-cover shadow-sm"
+          />
+          <div class="min-w-0 flex-1">
+            <span class="eyebrow text-stone-500">Alojamiento</span>
+            <h2 id="conf-room-name" class="display mt-1 text-2xl md:text-3xl font-semibold text-forest">
+              Suite Botánica
+            </h2>
+            <p id="conf-room-meta" class="mt-1 text-xs text-stone-500">
+              2 huéspedes · 1 Cama King · 38 m²
+            </p>
+
+            <div class="mt-5 grid grid-cols-3 gap-2 text-center text-xs">
+              <div class="rounded-xl bg-ivory p-2.5">
+                <span class="text-[0.6rem] text-stone-500 font-semibold block uppercase">Entrada</span>
+                <b id="conf-checkin" class="mt-0.5 block text-xs md:text-sm text-forest">14 Ago 2026</b>
+              </div>
+              <div class="rounded-xl bg-ivory p-2.5">
+                <span class="text-[0.6rem] text-stone-500 font-semibold block uppercase">Salida</span>
+                <b id="conf-checkout" class="mt-0.5 block text-xs md:text-sm text-forest">17 Ago 2026</b>
+              </div>
+              <div class="rounded-xl bg-ivory p-2.5">
+                <span class="text-[0.6rem] text-stone-500 font-semibold block uppercase">Estadía</span>
+                <b id="conf-nights" class="mt-0.5 block text-xs md:text-sm text-forest">3 noches</b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected Comfort Details -->
+        <div class="mt-8 border-t border-stone-200 pt-6">
+          <span class="eyebrow text-gold font-bold">Tus Preferencias de Confort Acondicionadas</span>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2 text-xs">
+            <div class="rounded-2xl border border-stone-200/80 bg-ivory p-3.5">
+              <p class="text-stone-500">Carta de Almohadas:</p>
+              <b id="conf-pillow-choice" class="mt-1 block text-forest text-sm">Pluma de ganso húngaro</b>
+            </div>
+            <div class="rounded-2xl border border-stone-200/80 bg-ivory p-3.5">
+              <p class="text-stone-500">Aromaterapia de Suite:</p>
+              <b id="conf-aroma-choice" class="mt-1 block text-forest text-sm">Lavanda & Cedro Andino</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additions -->
+        <div id="conf-experiences-wrapper" class="mt-6 border-t border-stone-200 pt-6">
+          <span class="eyebrow text-stone-500">Experiencias Incluidas</span>
+          <div id="conf-experiences-list" class="mt-3 space-y-2 text-xs text-stone-600">
+            <!-- Dynamic items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Arrival Instructions -->
+      <div class="rounded-3xl border border-stone-200/80 bg-paper p-7 soft-shadow">
+        <h3 class="display text-xl font-semibold text-forest">Información para tu Llegada</h3>
+        <div class="mt-4 space-y-3 text-xs md:text-sm text-stone-600 font-light">
+          <p>✦ <strong>Dirección:</strong> Calle del Jardín Secreto 123, Barrio Histórico.</p>
+          <p>✦ <strong>Horario de Check-in:</strong> 15:00 hrs. (Recepción abierta 24 hrs).</p>
+          <p>✦ <strong>Bienvenida:</strong> Te recibiremos con tu infusión botánica y toallas frescas en recepción.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Financial Summary & Actions -->
+    <aside class="space-y-6">
+      <div class="rounded-3xl border border-stone-200/80 bg-paper p-7 soft-shadow">
+        <h3 class="display text-2xl font-medium text-forest">Estado del Pago</h3>
+        <div class="mt-4 flex items-center justify-between rounded-xl bg-emerald-50 p-4 border border-emerald-200">
+          <span class="text-xs font-semibold text-emerald-800">✓ Pago Confirmado</span>
+          <span class="text-xs text-emerald-700 font-bold">100% Abonado</span>
+        </div>
+
+        <div class="mt-6 space-y-3 border-t border-stone-200 pt-5 text-xs md:text-sm">
+          <div class="flex justify-between text-stone-600">
+            <span id="conf-calc-nights">Habitación (3 noches)</span>
+            <b id="conf-calc-room" class="text-forest">$435.000</b>
+          </div>
+          <div class="flex justify-between text-stone-600">
+            <span>Servicios & Experiencias</span>
+            <b id="conf-calc-extras" class="text-forest">$97.000</b>
+          </div>
+          <div class="flex justify-between text-stone-600">
+            <span>Impuestos y tasas</span>
+            <b id="conf-calc-taxes" class="text-forest">$79.800</b>
+          </div>
+          <div class="flex items-end justify-between border-t border-stone-200 pt-4 text-base">
+            <span class="font-bold text-forest">Total Pagado</span>
+            <p id="conf-calc-total" class="display text-3xl font-bold text-forest">$611.800</p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 space-y-3">
+          <button
+            id="print-voucher-btn"
+            type="button"
+            class="w-full rounded-2xl border border-stone-300 bg-paper py-3.5 text-xs font-bold uppercase tracking-wider text-forest hover:bg-stone-100 transition"
+          >
+            Ver Comprobante / Imprimir PDF
+          </button>
+
+          <button
+            id="add-calendar-btn"
+            type="button"
+            class="w-full rounded-2xl border border-stone-300 bg-paper py-3.5 text-xs font-bold uppercase tracking-wider text-forest hover:bg-stone-100 transition"
+          >
+            Agregar al Calendario
+          </button>
+
+          <button
+            type="button"
+            data-open-concierge
+            class="w-full rounded-2xl border border-gold/40 bg-gold/10 py-3.5 text-xs font-bold uppercase tracking-wider text-forest hover:bg-gold/20 transition"
+          >
+            Escribir al Concierge
+          </button>
+
+          <a
+            href="/"
+            class="btn-gold block w-full rounded-2xl py-3.5 text-center text-xs font-bold uppercase tracking-widest text-forest shadow-md"
+          >
+            Volver a la Portada
+          </a>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Professional payment voucher preview and print surface -->
+  <div
+    id="print-voucher-modal"
+    class="fixed inset-0 z-[90] hidden items-center justify-center bg-[#03110d]/80 p-3 backdrop-blur-md sm:p-6"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="print-voucher-title"
+  >
+    <div
+      id="print-voucher-frame"
+      class="flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#eef0ec] shadow-2xl"
+    >
+      <div class="voucher-screen-actions flex flex-col items-stretch justify-between gap-3 border-b border-stone-200 bg-paper px-4 py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-6">
+        <div>
+          <p class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-gold">Vista previa</p>
+          <h2 id="print-voucher-title" class="display text-xl font-semibold text-forest">Comprobante de pago</h2>
+        </div>
+        <div class="grid grid-cols-[auto_1fr] items-center gap-2 sm:flex">
+          <button
+            id="close-print-voucher-btn"
+            type="button"
+            class="rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-xs font-bold text-forest transition hover:bg-stone-100"
+          >
+            Cerrar
+          </button>
+          <button
+            id="confirm-print-voucher-btn"
+            type="button"
+            class="btn-gold rounded-xl px-4 py-2.5 text-xs font-bold sm:px-6"
+          >
+            Imprimir / Guardar PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-y-auto p-3 sm:p-6">
+        <article
+          id="print-voucher-sheet"
+          class="mx-auto w-full overflow-hidden rounded-2xl border border-stone-200 bg-white text-[#17201b] shadow-lg"
+        >
+          <header class="flex flex-col justify-between gap-5 bg-[#0d2b22] px-6 py-6 text-white sm:flex-row sm:items-start sm:px-8">
+            <div class="flex items-center gap-3">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[#d8b270] text-lg text-[#d8b270]">✤</span>
+              <div>
+                <p class="display text-xl font-semibold tracking-wide">CASA BOTÁNICA</p>
+                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-[#e6cb9d]">Hotel Boutique</p>
+              </div>
+            </div>
+            <div class="text-left sm:text-right">
+              <p class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-[#e6cb9d]">Comprobante de pago</p>
+              <p id="voucher-code" class="mt-1 font-mono text-lg font-bold tracking-wider">CB-93821</p>
+              <p class="mt-1 text-[0.68rem] text-white/65">Emitido el <span id="voucher-issued-date">28/08/2026</span></p>
+            </div>
+          </header>
+
+          <div class="px-6 py-6 sm:px-8 sm:py-7">
+            <div class="voucher-no-break flex flex-col justify-between gap-4 border-b border-stone-200 pb-5 sm:flex-row sm:items-center">
+              <div>
+                <p class="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-stone-500">Estado de la transacción</p>
+                <div class="mt-2 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-800">
+                  <span class="grid h-4 w-4 place-items-center rounded-full bg-emerald-600 text-[0.58rem] text-white">✓</span>
+                  Pago confirmado
+                </div>
+              </div>
+              <div class="sm:text-right">
+                <p class="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-stone-500">Método de pago</p>
+                <p class="mt-1 text-sm font-semibold text-forest">Tarjeta terminada en 4242</p>
+                <p class="text-[0.68rem] text-stone-500">Pago procesado de forma segura</p>
+              </div>
+            </div>
+
+            <div class="voucher-no-break grid gap-5 border-b border-stone-200 py-5 sm:grid-cols-2">
+              <div>
+                <p class="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-stone-500">Huésped titular</p>
+                <p id="voucher-guest-name" class="mt-2 text-base font-bold text-forest">Jean Pierre Valenzuela</p>
+                <p id="voucher-guest-email" class="mt-0.5 text-xs text-stone-600">jeanpierre@mail.com</p>
+              </div>
+              <div>
+                <p class="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-stone-500">Alojamiento reservado</p>
+                <p id="voucher-room-name" class="mt-2 text-base font-bold text-forest">Suite Botánica</p>
+                <p id="voucher-guests" class="mt-0.5 text-xs text-stone-600">2 adultos</p>
+              </div>
+            </div>
+
+            <div class="voucher-no-break grid grid-cols-3 gap-2 border-b border-stone-200 py-5 text-center">
+              <div class="rounded-xl bg-[#f6f3ed] p-3">
+                <p class="text-[0.58rem] font-bold uppercase tracking-wider text-stone-500">Entrada</p>
+                <p id="voucher-checkin" class="mt-1 text-xs font-bold text-forest sm:text-sm">14 Ago 2026</p>
+                <p class="mt-0.5 text-[0.62rem] text-stone-500">Desde 15:00 hrs</p>
+              </div>
+              <div class="rounded-xl bg-[#f6f3ed] p-3">
+                <p class="text-[0.58rem] font-bold uppercase tracking-wider text-stone-500">Salida</p>
+                <p id="voucher-checkout" class="mt-1 text-xs font-bold text-forest sm:text-sm">17 Ago 2026</p>
+                <p class="mt-0.5 text-[0.62rem] text-stone-500">Hasta 12:00 hrs</p>
+              </div>
+              <div class="rounded-xl bg-[#f6f3ed] p-3">
+                <p class="text-[0.58rem] font-bold uppercase tracking-wider text-stone-500">Estadía</p>
+                <p id="voucher-nights" class="mt-1 text-xs font-bold text-forest sm:text-sm">3 noches</p>
+                <p class="mt-0.5 text-[0.62rem] text-stone-500">Reserva garantizada</p>
+              </div>
+            </div>
+
+            <div class="voucher-no-break py-5">
+              <div class="mb-3 flex items-end justify-between">
+                <div>
+                  <p class="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-stone-500">Detalle del pago</p>
+                  <p class="mt-1 text-xs text-stone-500">Valores expresados en la moneda seleccionada</p>
+                </div>
+              </div>
+              <div class="overflow-hidden rounded-xl border border-stone-200">
+                <div class="grid grid-cols-[1fr_auto] gap-4 border-b border-stone-200 px-4 py-3 text-xs">
+                  <span id="voucher-room-label" class="text-stone-600">Alojamiento · 3 noches</span>
+                  <b id="voucher-room-total" class="text-forest">$435.000 CLP</b>
+                </div>
+                <div class="grid grid-cols-[1fr_auto] gap-4 border-b border-stone-200 px-4 py-3 text-xs">
+                  <span class="text-stone-600">Servicios y experiencias</span>
+                  <b id="voucher-extras-total" class="text-forest">$97.000 CLP</b>
+                </div>
+                <div class="grid grid-cols-[1fr_auto] gap-4 border-b border-stone-200 px-4 py-3 text-xs">
+                  <span class="text-stone-600">Impuestos y cargos de servicio</span>
+                  <b id="voucher-taxes-total" class="text-forest">$79.800 CLP</b>
+                </div>
+                <div class="grid grid-cols-[1fr_auto] items-center gap-4 bg-[#0d2b22] px-4 py-4 text-white">
+                  <span class="text-sm font-bold">Total pagado</span>
+                  <b id="voucher-grand-total" class="display text-2xl text-[#e6cb9d]">$611.800 CLP</b>
+                </div>
+              </div>
+            </div>
+
+            <div class="voucher-no-break grid gap-4 border-t border-stone-200 pt-5 text-[0.68rem] leading-relaxed text-stone-500 sm:grid-cols-[1fr_auto] sm:items-end">
+              <div>
+                <p class="font-bold text-forest">Casa Botánica Hotel Boutique</p>
+                <p>Calle del Jardín Secreto 123 · Barrio Histórico</p>
+                <p>Recepción 24/7 · concierge@casabotanica.cl</p>
+              </div>
+              <p class="max-w-xs sm:text-right">Este comprobante acredita la reserva y el pago dentro de esta experiencia demostrativa. No constituye un documento tributario.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <style is:global>
+    #print-voucher-sheet {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+
+      html,
+      body {
+        background: #fff !important;
+      }
+
+      body * {
+        visibility: hidden !important;
+      }
+
+      #print-voucher-modal,
+      #print-voucher-modal * {
+        visibility: visible !important;
+      }
+
+      #print-voucher-modal {
+        position: absolute !important;
+        inset: 0 !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        background: #fff !important;
+      }
+
+      #print-voucher-frame {
+        width: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        overflow: visible !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+      }
+
+      #print-voucher-frame > div:last-child {
+        overflow: visible !important;
+        padding: 0 !important;
+      }
+
+      #print-voucher-sheet {
+        width: 100% !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+
+      .voucher-screen-actions {
+        display: none !important;
+      }
+
+      .voucher-no-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</BaseLayout>
+
+<script>
+  import { getStoredState, calculateBookingTotals, formatPrice, EXPERIENCES_CATALOG } from '../../scripts/bookingStore';
+
+  const state = getStoredState();
+  const totals = calculateBookingTotals(state);
+
+  const randomCode = 'CB-' + Math.floor(10000 + Math.random() * 90000);
+  const formatStayDate = (value: string) => {
+    const parsed = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: 'short', year: 'numeric' }).format(parsed);
+  };
+
+  const guestGreeting = document.getElementById('conf-guest-greeting');
+  const guestEmailNote = document.getElementById('conf-guest-email-note');
+  const bookingCodeEl = document.getElementById('conf-booking-code');
+
+  const roomImg = document.getElementById('conf-room-img') as HTMLImageElement | null;
+  const roomName = document.getElementById('conf-room-name');
+  const roomMeta = document.getElementById('conf-room-meta');
+  const checkin = document.getElementById('conf-checkin');
+  const checkout = document.getElementById('conf-checkout');
+  const nights = document.getElementById('conf-nights');
+
+  const pillowChoice = document.getElementById('conf-pillow-choice');
+  const aromaChoice = document.getElementById('conf-aroma-choice');
+  const expList = document.getElementById('conf-experiences-list');
+
+  const calcNights = document.getElementById('conf-calc-nights');
+  const calcRoom = document.getElementById('conf-calc-room');
+  const calcExtras = document.getElementById('conf-calc-extras');
+  const calcTaxes = document.getElementById('conf-calc-taxes');
+  const calcTotal = document.getElementById('conf-calc-total');
+
+  const voucherModal = document.getElementById('print-voucher-modal');
+  const voucherCode = document.getElementById('voucher-code');
+  const voucherIssuedDate = document.getElementById('voucher-issued-date');
+  const voucherGuestName = document.getElementById('voucher-guest-name');
+  const voucherGuestEmail = document.getElementById('voucher-guest-email');
+  const voucherRoomName = document.getElementById('voucher-room-name');
+  const voucherGuests = document.getElementById('voucher-guests');
+  const voucherCheckin = document.getElementById('voucher-checkin');
+  const voucherCheckout = document.getElementById('voucher-checkout');
+  const voucherNights = document.getElementById('voucher-nights');
+  const voucherRoomLabel = document.getElementById('voucher-room-label');
+  const voucherRoomTotal = document.getElementById('voucher-room-total');
+  const voucherExtrasTotal = document.getElementById('voucher-extras-total');
+  const voucherTaxesTotal = document.getElementById('voucher-taxes-total');
+  const voucherGrandTotal = document.getElementById('voucher-grand-total');
+
+  if (bookingCodeEl) bookingCodeEl.textContent = randomCode;
+
+  if (guestGreeting && state.guestInfo.firstName) {
+    guestGreeting.innerHTML = `Gracias, <span class="font-semibold text-white">${state.guestInfo.firstName} ${state.guestInfo.lastName}</span>. Hemos preparado todo para tu estadía de descanso.`;
+  }
+  if (guestEmailNote && state.guestInfo.email) {
+    guestEmailNote.innerHTML = `Enviamos el voucher digital y detalles de acceso a <span class="text-gold-soft">${state.guestInfo.email}</span>`;
+  }
+
+  if (roomImg && totals.room) roomImg.src = totals.room.image;
+  if (roomName && totals.room) roomName.textContent = totals.room.name;
+  if (roomMeta && totals.room) roomMeta.textContent = `${state.guests} · ${totals.room.bed} · ${totals.room.size}`;
+
+  if (checkin) checkin.textContent = state.checkIn;
+  if (checkout) checkout.textContent = state.checkOut;
+  if (nights) nights.textContent = `${totals.nights} noches`;
+
+  if (pillowChoice) pillowChoice.textContent = state.guestInfo.pillowPreference || 'Pluma de ganso húngaro';
+  if (aromaChoice) aromaChoice.textContent = state.guestInfo.aromaPreference || 'Lavanda & Cedro Andino';
+
+  if (expList) {
+    if (state.selectedExperiences.length === 0) {
+      expList.innerHTML = `<p class="text-stone-400 italic">No seleccionaste experiencias adicionales.</p>`;
+    } else {
+      expList.innerHTML = state.selectedExperiences
+        .map(id => {
+          const exp = EXPERIENCES_CATALOG.find(e => e.id === id);
+          if (!exp) return '';
+          return `<div class="flex justify-between"><span>• ${exp.name}</span><b class="text-forest">${formatPrice(exp.priceCLP, state.currency)}</b></div>`;
+        })
+        .join('');
+    }
+  }
+
+  if (calcNights) calcNights.textContent = `Habitación (${totals.nights} noches)`;
+  if (calcRoom) calcRoom.textContent = formatPrice(totals.roomSubtotalCLP, state.currency);
+  if (calcExtras) calcExtras.textContent = formatPrice(totals.extrasSubtotalCLP, state.currency);
+  if (calcTaxes) calcTaxes.textContent = formatPrice(totals.taxesCLP, state.currency);
+  if (calcTotal) calcTotal.textContent = formatPrice(totals.totalCLP, state.currency);
+
+  if (voucherCode) voucherCode.textContent = randomCode;
+  if (voucherIssuedDate) voucherIssuedDate.textContent = new Intl.DateTimeFormat('es-CL', { dateStyle: 'long' }).format(new Date());
+  if (voucherGuestName) voucherGuestName.textContent = `${state.guestInfo.firstName} ${state.guestInfo.lastName}`.trim() || 'Huésped Casa Botánica';
+  if (voucherGuestEmail) voucherGuestEmail.textContent = state.guestInfo.email || 'Correo no informado';
+  if (voucherRoomName) voucherRoomName.textContent = totals.room.name;
+  if (voucherGuests) voucherGuests.textContent = state.guests;
+  if (voucherCheckin) voucherCheckin.textContent = formatStayDate(state.checkIn);
+  if (voucherCheckout) voucherCheckout.textContent = formatStayDate(state.checkOut);
+  if (voucherNights) voucherNights.textContent = `${totals.nights} ${totals.nights === 1 ? 'noche' : 'noches'}`;
+  if (voucherRoomLabel) voucherRoomLabel.textContent = `Alojamiento · ${totals.nights} ${totals.nights === 1 ? 'noche' : 'noches'}`;
+  if (voucherRoomTotal) voucherRoomTotal.textContent = formatPrice(totals.roomSubtotalCLP, state.currency);
+  if (voucherExtrasTotal) voucherExtrasTotal.textContent = formatPrice(totals.extrasSubtotalCLP, state.currency);
+  if (voucherTaxesTotal) voucherTaxesTotal.textContent = formatPrice(totals.taxesCLP, state.currency);
+  if (voucherGrandTotal) voucherGrandTotal.textContent = formatPrice(totals.totalCLP, state.currency);
+
+  document.getElementById('copy-code-btn')?.addEventListener('click', () => {
+    navigator.clipboard.writeText(randomCode);
+    const toast = document.getElementById('toast');
+    if (toast) {
+      toast.textContent = `Código ${randomCode} copiado al portapapeles.`;
+      toast.classList.remove('opacity-0', 'translate-y-5');
+      setTimeout(() => toast.classList.add('opacity-0', 'translate-y-5'), 3000);
+    }
+  });
+
+  document.getElementById('print-voucher-btn')?.addEventListener('click', () => {
+    voucherModal?.classList.remove('hidden');
+    voucherModal?.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  });
+
+  const closeVoucherPreview = () => {
+    voucherModal?.classList.remove('flex');
+    voucherModal?.classList.add('hidden');
+    document.body.style.overflow = '';
+  };
+
+  document.getElementById('close-print-voucher-btn')?.addEventListener('click', closeVoucherPreview);
+  document.getElementById('confirm-print-voucher-btn')?.addEventListener('click', () => window.print());
+  voucherModal?.addEventListener('click', (event) => {
+    if (event.target === voucherModal) closeVoucherPreview();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !voucherModal?.classList.contains('hidden')) closeVoucherPreview();
+  });
+
+  document.getElementById('add-calendar-btn')?.addEventListener('click', () => {
+    const title = encodeURIComponent(`Estadía en Casa Botánica (${totals.room.name})`);
+    const details = encodeURIComponent(`Reserva #${randomCode}. Check-in: 15:00 hrs. Dirección: Calle del Jardín Secreto 123.`);
+    const location = encodeURIComponent('Casa Botánica Hotel Boutique');
+    const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}`;
+    window.open(calUrl, '_blank');
+  });
+</script>

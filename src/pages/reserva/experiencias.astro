@@ -1,5 +1,193 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';import Stepper from '../../components/Stepper.astro';import ReservationSummary from '../../components/ReservationSummary.astro';
-const extras=[['Tour Viñedos Premium','4 horas · Transporte incluido','$42.000','https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=700&q=85'],['Masaje Relajante','60 minutos','$55.000','https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=700&q=85'],['Desayuno en la Habitación','Servicio a la habitación','$18.000','https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=700&q=85'],['Decoración Romántica','Flores, velas y detalles','$35.000','https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=700&q=85']];
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Stepper from '../../components/Stepper.astro';
+import ReservationSummary from '../../components/ReservationSummary.astro';
+import { EXPERIENCES_CATALOG } from '../../scripts/bookingStore';
 ---
-<BaseLayout title="Mejora tu experiencia — Casa Botánica"><section class="bg-forest py-7 text-white"><div class="shell"><h1 class="display text-4xl">Tu reserva</h1><p class="text-sm text-white/70">Personaliza tu estadía agregando experiencias y servicios.</p></div></section><Stepper current={2}/><section class="shell grid gap-8 py-10 lg:grid-cols-[1fr_340px]"><div><div class="flex flex-wrap items-end justify-between gap-4"><div><h2 class="display text-5xl">Mejora tu experiencia</h2><p class="mt-2 text-sm text-stone-500">Haz que tu estadía sea inolvidable.</p></div><a href="/reserva/datos" class="rounded-xl border border-gold px-5 py-3 text-sm text-forest">Saltar este paso</a></div><div class="mt-7 flex gap-3 overflow-x-auto pb-2">{['Todas','Tours y actividades','Gastronomía','Bienestar','Traslados'].map((x,i)=><button class:list={["shrink-0 rounded-full px-5 py-2.5 text-xs",i===0?'bg-forest text-white':'border border-stone-200 bg-paper']}>{x}</button>)}</div><div class="mt-6 grid gap-5 sm:grid-cols-2">{extras.map((e,i)=><article class="overflow-hidden rounded-2xl bg-paper soft-shadow"><img src={e[3]} alt={e[0]} class="h-48 w-full object-cover"/><div class="p-5"><span class="eyebrow">{i===0?'Más reservado':'Experiencia'}</span><h3 class="display mt-2 text-2xl">{e[0]}</h3><p class="mt-1 text-xs text-stone-500">{e[1]}</p><div class="mt-6 flex items-center justify-between"><p class="display text-2xl">{e[2]}</p><button class="extra-button grid h-10 w-10 place-items-center rounded-full border border-forest text-lg text-forest" aria-label={`Añadir ${e[0]}`}>+</button></div></div></article>)}</div><a href="/reserva/datos" class="mt-7 block rounded-xl bg-forest px-6 py-4 text-center text-sm font-bold text-white sm:ml-auto sm:w-64">Continuar →</a></div><ReservationSummary/></section><script>document.querySelectorAll('.extra-button').forEach(b=>b.addEventListener('click',()=>{b.textContent=b.textContent==='+'?'✓':'+';b.classList.toggle('bg-forest');b.classList.toggle('text-white')}));</script></BaseLayout>
+
+<BaseLayout title="Personaliza tu Estadía — Casa Botánica" showStickyBar={false}>
+  <!-- Top Banner -->
+  <section class="bg-forest py-8 text-white border-b border-white/10">
+    <div class="shell flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <span class="eyebrow text-gold-soft">Paso 2 de 4</span>
+        <h1 class="display mt-1 text-3xl sm:text-4xl md:text-5xl font-medium text-white">
+          Experiencias & Servicios del Santuario
+        </h1>
+        <p class="mt-1 text-xs sm:text-sm text-white/70">
+          Añade momentos únicos a tu reserva o continúa directamente.
+        </p>
+      </div>
+      <a
+        href="/reserva/datos"
+        class="text-xs text-gold-light hover:underline font-semibold uppercase tracking-wider"
+      >
+        Saltar este paso y continuar →
+      </a>
+    </div>
+  </section>
+
+  <Stepper current={2} />
+
+  <!-- Main Content Grid -->
+  <section class="shell grid gap-10 py-10 lg:grid-cols-[1.35fr_380px] items-start">
+    <div>
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-4">
+        <div>
+          <h2 class="display text-3xl font-medium text-forest">Catálogo de Experiencias</h2>
+          <p class="text-xs text-stone-500 mt-1">Selecciona los servicios que deseas disfrutar durante tu estadía.</p>
+        </div>
+
+        <!-- Filter pills -->
+        <div class="flex flex-wrap gap-2">
+          <button data-filter="all" class="exp-filter-pill rounded-full bg-forest px-4 py-1.5 text-xs font-bold text-white shadow-sm">
+            Todas
+          </button>
+          <button data-filter="bienestar" class="exp-filter-pill rounded-full border border-stone-200 bg-paper px-4 py-1.5 text-xs font-medium text-forest hover:bg-stone-100 transition">
+            Bienestar
+          </button>
+          <button data-filter="gastronomia" class="exp-filter-pill rounded-full border border-stone-200 bg-paper px-4 py-1.5 text-xs font-medium text-forest hover:bg-stone-100 transition">
+            Gastronomía
+          </button>
+          <button data-filter="tours" class="exp-filter-pill rounded-full border border-stone-200 bg-paper px-4 py-1.5 text-xs font-medium text-forest hover:bg-stone-100 transition">
+            Tours & Traslados
+          </button>
+        </div>
+      </div>
+
+      <!-- Experience Cards Grid -->
+      <div id="experiences-grid" class="mt-8 grid gap-6 sm:grid-cols-2">
+        {EXPERIENCES_CATALOG.map((exp) => (
+          <article
+            data-exp-id={exp.id}
+            data-exp-category={exp.category}
+            class="exp-card group overflow-hidden rounded-3xl border border-stone-200/80 bg-paper soft-shadow flex flex-col justify-between transition-all"
+          >
+            <div>
+              <div class="relative h-48 overflow-hidden">
+                <img
+                  src={exp.image}
+                  alt={exp.name}
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <span class="absolute left-3 top-3 rounded-full bg-paper/90 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-wider text-forest backdrop-blur-md">
+                  {exp.tag}
+                </span>
+              </div>
+
+              <div class="p-5">
+                <span class="eyebrow text-gold font-bold">{exp.duration}</span>
+                <h3 class="display mt-1 text-xl font-semibold text-forest">
+                  {exp.name}
+                </h3>
+                <p class="mt-2 text-xs text-stone-500 leading-relaxed font-light">
+                  {exp.description}
+                </p>
+              </div>
+            </div>
+
+            <div class="border-t border-stone-200 p-5 flex items-center justify-between bg-ivory/40">
+              <div>
+                <span class="text-[0.62rem] uppercase tracking-widest text-stone-500 font-semibold block">Valor por persona</span>
+                <p class="display text-xl md:text-2xl font-bold text-forest">
+                  ${exp.priceCLP.toLocaleString('es-CL')} <span class="font-sans text-xs font-normal text-stone-500">CLP</span>
+                </p>
+              </div>
+
+              <button
+                type="button"
+                data-toggle-exp={exp.id}
+                class="btn-toggle-exp flex items-center gap-1.5 rounded-xl border border-forest px-4 py-2 text-xs font-bold transition hover:bg-forest hover:text-white text-forest"
+              >
+                <span class="text-base font-bold">+</span>
+                <span>Agregar</span>
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Continue button footer -->
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-stone-200 pt-6">
+        <a
+          href="/habitaciones"
+          class="rounded-xl border border-stone-300 bg-paper px-5 py-3 text-xs font-bold text-forest hover:bg-stone-100 transition uppercase tracking-wider"
+        >
+          ← Cambiar Habitación
+        </a>
+        <a
+          href="/reserva/datos"
+          class="btn-gold rounded-xl px-7 py-3 text-xs font-bold tracking-widest uppercase text-forest shadow-lg"
+        >
+          Continuar a Datos →
+        </a>
+      </div>
+    </div>
+
+    <!-- Live Reactive Reservation Summary -->
+    <ReservationSummary />
+  </section>
+</BaseLayout>
+
+<script>
+  import { getStoredState, updateBookingField } from '../../scripts/bookingStore';
+
+  const updateButtonsState = () => {
+    const state = getStoredState();
+    document.querySelectorAll('.btn-toggle-exp').forEach(btn => {
+      const expId = btn.getAttribute('data-toggle-exp');
+      if (!expId) return;
+      const isSelected = state.selectedExperiences.includes(expId);
+
+      if (isSelected) {
+        btn.className = 'btn-toggle-exp flex items-center gap-1.5 rounded-xl bg-forest text-white px-4 py-2 text-xs font-bold transition shadow-sm';
+        btn.innerHTML = `<span>✓</span><span>Añadido</span>`;
+      } else {
+        btn.className = 'btn-toggle-exp flex items-center gap-1.5 rounded-xl border border-forest px-4 py-2 text-xs font-bold transition hover:bg-forest hover:text-white text-forest';
+        btn.innerHTML = `<span class="text-base font-bold">+</span><span>Agregar</span>`;
+      }
+    });
+  };
+
+  updateButtonsState();
+
+  document.querySelectorAll('.btn-toggle-exp').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expId = btn.getAttribute('data-toggle-exp');
+      if (!expId) return;
+
+      const state = getStoredState();
+      let updated: string[];
+      if (state.selectedExperiences.includes(expId)) {
+        updated = state.selectedExperiences.filter(id => id !== expId);
+      } else {
+        updated = [...state.selectedExperiences, expId];
+      }
+
+      updateBookingField('selectedExperiences', updated);
+      updateButtonsState();
+    });
+  });
+
+  const filterPills = document.querySelectorAll('.exp-filter-pill');
+  const cards = document.querySelectorAll('[data-exp-id]');
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => {
+        p.className = 'exp-filter-pill rounded-full border border-stone-200 bg-paper px-4 py-1.5 text-xs font-medium text-forest hover:bg-stone-100 transition';
+      });
+      pill.className = 'exp-filter-pill rounded-full bg-forest px-4 py-1.5 text-xs font-bold text-white shadow-sm';
+
+      const cat = pill.getAttribute('data-filter');
+      cards.forEach(c => {
+        const itemCat = c.getAttribute('data-exp-category');
+        if (cat === 'all' || itemCat === cat) {
+          (c as HTMLElement).style.display = 'flex';
+        } else {
+          (c as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

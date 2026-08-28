@@ -1,4 +1,276 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Stepper from '../../components/Stepper.astro';
+
+const galleryPhotos = [
+  { url: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1600&q=90', caption: 'Cama King California con sábanas de 800 hilos' },
+  { url: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1600&q=90', caption: 'Sala de lectura privada y luz matutina' },
+  { url: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=90', caption: 'Tina exenta de piedra volcánica' },
+  { url: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=90', caption: 'Terraza exterior con vistas a los jardines' }
+];
+
+const amenitiesList = [
+  { title: 'Cama King California', desc: 'Colchón ergonómico de látex natural y lino suave' },
+  { title: 'Tina Volcánica', desc: 'Sales de baño de romero y sales del Himalaya' },
+  { title: 'Balcón Privado', desc: 'Espacio exclusivo con reposeras y jardín vertical' },
+  { title: 'Barista Corner', desc: 'Cafetera espresso con granos de especialidad' },
+  { title: 'Carta de Almohadas', desc: '4 opciones ergonómicas a tu elección' },
+  { title: 'Amenidades Orgánicas', desc: 'Cosmética botánica de lavanda y caléndula' }
+];
 ---
-<BaseLayout title="Suite Botánica — Casa Botánica"><div class="bg-forest py-5 text-white"><div class="shell text-sm"><a href="/habitaciones">← Volver a habitaciones</a><span class="mx-4 text-white/30">|</span> Home &nbsp; › &nbsp; Habitaciones &nbsp; › &nbsp; Suite Botánica</div></div><section class="shell grid gap-6 py-6 lg:grid-cols-[1.65fr_.9fr]"><div><img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1500&q=90" alt="Suite Botánica" class="h-[470px] w-full rounded-2xl object-cover"/><div class="mt-3 grid grid-cols-4 gap-3">{['photo-1618773928121-c32242e63f39','photo-1590490360182-c33d57733427','photo-1600566753086-00f18fb6b3ea','photo-1600607687920-4e2a09cf159d'].map(id=><img src={`https://images.unsplash.com/${id}?auto=format&fit=crop&w=400&q=75`} class="h-24 w-full rounded-xl object-cover" alt="Detalle de la suite"/>)}</div><div class="mt-6 rounded-2xl bg-paper p-7"><div class="flex flex-wrap gap-8 border-b border-stone-200 pb-4 text-sm"><b class="text-gold">Descripción</b><span>Comodidades</span><span>Galería</span><span>Políticas</span></div><p class="mt-6 text-sm leading-7 text-stone-600">La Suite Botánica combina elegancia, confort y naturaleza en un espacio único. Disfruta de un descanso pleno en una cama King, relájate en tu sala privada y contempla la ciudad desde tu balcón exclusivo.</p><div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{['Cama King','Sala de estar','Vista panorámica','Baño de lujo'].map(x=><div class="rounded-xl bg-ivory p-4 text-sm font-semibold">✦ {x}</div>)}</div></div></div><aside class="rounded-2xl bg-paper p-7 soft-shadow"><span class="eyebrow">Más popular</span><h1 class="display mt-3 text-5xl">Suite Botánica</h1><p class="mt-3 text-gold">★★★★☆ <span class="ml-2 text-xs text-stone-500">4.8 (142 reseñas)</span></p><p class="mt-6 text-xs text-stone-500">2 huéspedes · 1 cama King · 32 m² · Vista ciudad</p><p class="mt-6 text-sm leading-7 text-stone-600">Nuestra suite más exclusiva, con balcón privado, sala de estar independiente y una vista panorámica única de la ciudad.</p><div class="mt-7 border-t border-stone-200 pt-6"><p class="eyebrow">Comodidades destacadas</p><div class="mt-4 grid grid-cols-2 gap-4 text-xs"><span>♧ Balcón privado</span><span>◇ WiFi de alta velocidad</span><span>❄ Aire acondicionado</span><span>✦ Minibar incluido</span></div></div><div class="mt-8 border-t border-stone-200 pt-6"><small class="text-stone-500">Desde</small><p class="display text-4xl">$145.000</p><p class="text-xs text-stone-500">por noche</p><a href="/reserva/experiencias" class="mt-5 block rounded-xl bg-forest px-6 py-4 text-center text-sm font-bold text-white">RESERVAR AHORA</a></div></aside></section></BaseLayout>
+
+<BaseLayout title="Suite Botánica — Casa Botánica Hotel Boutique" showStickyBar={false}>
+  <!-- Breadcrumb & Top Bar -->
+  <div class="bg-forest py-4 text-white border-b border-white/10">
+    <div class="shell flex flex-wrap items-center justify-between text-xs">
+      <div class="flex items-center gap-2">
+        <a href="/habitaciones" class="text-gold-light hover:underline">← Volver a Habitaciones</a>
+        <span class="text-white/40">/</span>
+        <span class="text-white/70">Suite Botánica Insignia</span>
+      </div>
+      <span class="hidden sm:inline-block text-xs text-gold uppercase tracking-wider font-semibold">
+        ✦ La habitación más elogiada por nuestros huéspedes
+      </span>
+    </div>
+  </div>
+
+  <Stepper current={1} />
+
+  <!-- Main Content Grid -->
+  <section class="shell grid gap-10 py-10 lg:grid-cols-[1.45fr_380px] items-start">
+    <!-- Left: Interactive Gallery and Details -->
+    <div>
+      <!-- Main Active Photo -->
+      <div class="relative overflow-hidden rounded-3xl border border-stone-200/80 bg-stone-900 shadow-xl">
+        <img
+          id="suite-main-img"
+          src={galleryPhotos[0].url}
+          alt="Suite Botánica Principal"
+          class="h-[360px] sm:h-[460px] w-full object-cover transition-opacity duration-300"
+        />
+        <div class="absolute bottom-4 left-4 rounded-xl bg-forest-dark/80 px-4 py-2 text-xs text-white backdrop-blur-md border border-white/10">
+          <span id="suite-photo-caption">{galleryPhotos[0].caption}</span>
+        </div>
+      </div>
+
+      <!-- Thumbnails Grid -->
+      <div class="mt-4 grid grid-cols-4 gap-3">
+        {galleryPhotos.map((photo, i) => (
+          <button
+            type="button"
+            data-photo-index={i}
+            data-photo-url={photo.url}
+            data-photo-caption={photo.caption}
+            class:list={[
+              "suite-thumb relative h-20 sm:h-24 overflow-hidden rounded-2xl border-2 transition hover:opacity-100",
+              i === 0 ? "border-gold opacity-100" : "border-transparent opacity-60"
+            ]}
+          >
+            <img src={photo.url} alt={photo.caption} class="h-full w-full object-cover" />
+          </button>
+        ))}
+      </div>
+
+      <!-- Tabbed Information -->
+      <div class="mt-8 rounded-3xl border border-stone-200/80 bg-paper p-7 soft-shadow">
+        <!-- Tabs Nav -->
+        <div class="flex flex-wrap gap-6 border-b border-stone-200 pb-4 text-xs sm:text-sm font-semibold">
+          <button id="tab-btn-desc" class="suite-info-tab border-b-2 border-forest pb-3 text-forest">
+            Descripción & Filosofía
+          </button>
+          <button id="tab-btn-amenities" class="suite-info-tab pb-3 text-stone-500 hover:text-forest">
+            Amenidades & Confort
+          </button>
+          <button id="tab-btn-policies" class="suite-info-tab pb-3 text-stone-500 hover:text-forest">
+            Políticas del Santuario
+          </button>
+        </div>
+
+        <!-- Tab 1: Description -->
+        <div id="tab-content-desc" class="suite-info-panel mt-6 space-y-4 text-xs sm:text-sm text-stone-600 leading-relaxed font-light">
+          <p>
+            La <strong>Suite Botánica</strong> es la máxima expresión de nuestra visión de descanso. Construida con techos altos de maderas nobles recuperadas y ventanales que enmarcan la vegetación exterior, ofrece un espacio de 38 m² diseñado para despertar los sentidos y calmar la mente.
+          </p>
+          <p>
+            Cuenta con sala de estar privada, balcón con reposeras de lectura, y un cuarto de baño revestido en piedra natural con una tina exenta volcánica para baños de inmersión preparados con hierbas aromáticas de nuestro huerto.
+          </p>
+          <div class="mt-6 rounded-2xl bg-ivory p-5 border border-stone-200/60 flex items-center justify-between">
+            <div>
+              <b class="text-forest text-sm block">Personaliza tu llegada</b>
+              <p class="text-xs text-stone-500 mt-0.5">Elige tu almohada y aroma preferido sin costo adicional.</p>
+            </div>
+            <button
+              type="button"
+              data-open-sensory-modal
+              class="btn-gold rounded-xl px-4 py-2 text-xs font-bold uppercase text-forest"
+            >
+              Configurar
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 2: Amenities Grid -->
+        <div id="tab-content-amenities" class="suite-info-panel mt-6 hidden">
+          <div class="grid gap-4 sm:grid-cols-2">
+            {amenitiesList.map(a => (
+              <div class="rounded-2xl border border-stone-200/70 bg-ivory/60 p-4">
+                <div class="flex items-center gap-3">
+                  <span class="text-gold font-bold text-sm">✦</span>
+                  <div>
+                    <b class="text-xs sm:text-sm font-semibold text-forest block">{a.title}</b>
+                    <span class="text-[0.72rem] text-stone-500 font-light">{a.desc}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Tab 3: Policies -->
+        <div id="tab-content-policies" class="suite-info-panel mt-6 hidden text-xs sm:text-sm text-stone-600 space-y-3 font-light">
+          <p>• <strong>Check-in:</strong> A partir de las 15:00 hrs. (Podemos guardar tu equipaje con anticipación).</p>
+          <p>• <strong>Check-out:</strong> Hasta las 12:00 hrs.</p>
+          <p>• <strong>Desayuno:</strong> Incluido todas las mañanas de 07:30 a 11:30 hrs en restaurante o servido en suite.</p>
+          <p>• <strong>Cancelación Flexible:</strong> Sin costo de penalización hasta 48 horas antes de tu fecha de llegada.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Sticky Booking Summary Card -->
+    <aside class="rounded-3xl border border-stone-200/80 bg-paper p-7 soft-shadow lg:sticky lg:top-28">
+      <div class="flex items-center justify-between">
+        <span class="eyebrow text-gold font-bold">Suite Insignia</span>
+        <span class="rounded-full bg-emerald-100 text-emerald-800 px-3 py-1 text-[0.62rem] font-bold uppercase">
+          Disponible
+        </span>
+      </div>
+
+      <h1 class="display mt-2 text-3xl sm:text-4xl font-semibold text-forest">
+        Suite Botánica
+      </h1>
+      <p class="mt-1 text-xs text-stone-500">
+        2 huéspedes · 1 Cama King · 38 m² · Balcón Privado
+      </p>
+
+      <div class="mt-4 flex items-center gap-2 text-gold text-xs">
+        <span class="font-bold text-forest">4.9 / 5.0</span>
+        <span class="text-stone-400">(142 reseñas verificadas)</span>
+      </div>
+
+      <!-- Price -->
+      <div class="mt-6 rounded-2xl bg-ivory p-5 border border-stone-200/70">
+        <span class="text-[0.62rem] uppercase tracking-widest text-stone-500 font-semibold block">Tarifa por noche</span>
+        <p class="display text-3xl sm:text-4xl font-bold text-forest">
+          $145.000 <span class="font-sans text-xs font-normal text-stone-500">CLP / noche</span>
+        </p>
+        <p class="mt-1 text-[0.68rem] text-emerald-700 font-medium">✓ Desayuno gourmet a la carta e impuestos incluidos</p>
+      </div>
+
+      <!-- Comfort preview -->
+      <div class="mt-6 border-t border-stone-200 pt-5 space-y-2.5 text-xs text-stone-600">
+        <p class="flex items-center justify-between">
+          <span>Carta de Almohadas</span>
+          <b class="text-forest">Gratis incluida</b>
+        </p>
+        <p class="flex items-center justify-between">
+          <span>Aromaterapia a elección</span>
+          <b class="text-forest">Gratis incluida</b>
+        </p>
+        <p class="flex items-center justify-between">
+          <span>Minibar & café de especialidad</span>
+          <b class="text-forest">Cortesía de bienvenida</b>
+        </p>
+      </div>
+
+      <!-- Main Action -->
+      <button
+        id="book-suite-btn"
+        type="button"
+        class="btn-gold mt-7 w-full rounded-2xl py-3.5 text-center text-xs font-bold tracking-widest uppercase text-forest shadow-lg"
+      >
+        Continuar con esta Suite →
+      </button>
+
+      <div class="mt-5 text-center">
+        <button
+          type="button"
+          data-open-concierge
+          class="text-xs text-stone-500 hover:text-forest underline"
+        >
+          ¿Deseas consultar disponibilidad con Concierge?
+        </button>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>
+
+<script>
+  import { updateBookingField } from '../../scripts/bookingStore';
+
+  const mainImg = document.getElementById('suite-main-img') as HTMLImageElement | null;
+  const captionEl = document.getElementById('suite-photo-caption');
+  const thumbs = document.querySelectorAll('.suite-thumb');
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const url = thumb.getAttribute('data-photo-url');
+      const caption = thumb.getAttribute('data-photo-caption');
+
+      if (mainImg && url) {
+        mainImg.style.opacity = '0.4';
+        setTimeout(() => {
+          mainImg.src = url;
+          mainImg.style.opacity = '1';
+        }, 150);
+      }
+
+      if (captionEl && caption) captionEl.textContent = caption;
+
+      thumbs.forEach(t => {
+        t.classList.remove('border-gold', 'opacity-100');
+        t.classList.add('border-transparent', 'opacity-60');
+      });
+      thumb.classList.add('border-gold', 'opacity-100');
+      thumb.classList.remove('border-transparent', 'opacity-60');
+    });
+  });
+
+  const tabDesc = document.getElementById('tab-btn-desc');
+  const tabAmenities = document.getElementById('tab-btn-amenities');
+  const tabPolicies = document.getElementById('tab-btn-policies');
+
+  const contentDesc = document.getElementById('tab-content-desc');
+  const contentAmenities = document.getElementById('tab-content-amenities');
+  const contentPolicies = document.getElementById('tab-content-policies');
+
+  const setTab = (tab: 'desc' | 'amenities' | 'policies') => {
+    [tabDesc, tabAmenities, tabPolicies].forEach(b => {
+      b?.classList.remove('border-b-2', 'border-forest', 'text-forest');
+      b?.classList.add('text-stone-500');
+    });
+
+    [contentDesc, contentAmenities, contentPolicies].forEach(c => c?.classList.add('hidden'));
+
+    if (tab === 'desc') {
+      tabDesc?.classList.add('border-b-2', 'border-forest', 'text-forest');
+      contentDesc?.classList.remove('hidden');
+    } else if (tab === 'amenities') {
+      tabAmenities?.classList.add('border-b-2', 'border-forest', 'text-forest');
+      contentAmenities?.classList.remove('hidden');
+    } else if (tab === 'policies') {
+      tabPolicies?.classList.add('border-b-2', 'border-forest', 'text-forest');
+      contentPolicies?.classList.remove('hidden');
+    }
+  };
+
+  tabDesc?.addEventListener('click', () => setTab('desc'));
+  tabAmenities?.addEventListener('click', () => setTab('amenities'));
+  tabPolicies?.addEventListener('click', () => setTab('policies'));
+
+  document.getElementById('book-suite-btn')?.addEventListener('click', () => {
+    updateBookingField('roomId', 'suite-botanica');
+    updateBookingField('roomName', 'Suite Botánica');
+    updateBookingField('roomPriceCLP', 145000);
+    window.location.href = '/reserva/experiencias';
+  });
+</script>

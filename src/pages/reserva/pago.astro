@@ -1,4 +1,260 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';import Stepper from '../../components/Stepper.astro';import ReservationSummary from '../../components/ReservationSummary.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Stepper from '../../components/Stepper.astro';
+import ReservationSummary from '../../components/ReservationSummary.astro';
 ---
-<BaseLayout title="Pago seguro — Casa Botánica"><section class="bg-forest py-7 text-white"><div class="shell flex justify-between"><div><h1 class="display text-4xl">Tu reserva</h1><p class="text-sm text-white/70">Último paso: realiza tu pago de forma segura.</p></div><p class="hidden text-sm sm:block">◇ Pago 100% seguro</p></div></section><Stepper current={4}/><section class="shell grid gap-8 py-10 lg:grid-cols-[1fr_360px]"><form class="rounded-2xl bg-paper p-7 soft-shadow" action="/reserva/confirmacion"><h2 class="display text-4xl">Método de pago</h2><p class="mt-2 text-sm text-stone-500">Elige tu método y completa la información.</p><div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">{['▰ Tarjeta','PayPal','● Pay','G Pay'].map((x,i)=><button type="button" class:list={["rounded-xl border px-3 py-4 text-sm font-bold",i===0?'border-forest':'border-stone-200']}>{x}</button>)}</div><div class="mt-7 space-y-5"><label class="block text-xs font-semibold">Nombre del titular<input value="Jean Pierre Valenzuela" class="mt-2 w-full rounded-lg border border-stone-200 px-4 py-3"/></label><label class="block text-xs font-semibold">Número de tarjeta<input value="4242 4242 4242 4242" class="mt-2 w-full rounded-lg border border-stone-200 px-4 py-3"/></label><div class="grid gap-4 sm:grid-cols-3"><label class="text-xs font-semibold">Expiración<input placeholder="MM / AA" class="mt-2 w-full rounded-lg border border-stone-200 px-4 py-3" required/></label><label class="text-xs font-semibold">CVV<input placeholder="CVV" class="mt-2 w-full rounded-lg border border-stone-200 px-4 py-3" required/></label><label class="text-xs font-semibold">País<select class="mt-2 w-full rounded-lg border border-stone-200 px-4 py-3"><option>Chile</option></select></label></div></div><div class="mt-7 rounded-xl bg-ivory p-5 text-xs"><b>◇ Compra segura</b><p class="mt-1 text-stone-500">Protegida con cifrado SSL de 256 bits.</p></div><div class="mt-7 flex justify-between gap-4"><a href="/reserva/datos" class="rounded-xl border border-forest px-6 py-4 text-sm">← Volver</a><button class="rounded-xl bg-forest px-7 py-4 text-sm font-bold text-white">Pagar $597.250 CLP</button></div></form><ReservationSummary extras/></section></BaseLayout>
+
+<BaseLayout title="Pago Seguro — Casa Botánica" showStickyBar={false}>
+  <!-- Top Banner -->
+  <section class="bg-forest py-8 text-white border-b border-white/10">
+    <div class="shell flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <span class="eyebrow text-gold-soft">Paso 4 de 4</span>
+        <h1 class="display mt-1 text-3xl sm:text-4xl md:text-5xl font-medium text-white">
+          Método de Pago Seguro
+        </h1>
+        <p class="mt-1 text-xs sm:text-sm text-white/70">
+          Último paso para asegurar tu refugio en Casa Botánica.
+        </p>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 text-xs text-emerald-400 font-semibold bg-forest-dark/60 px-4 py-2 rounded-full border border-emerald-400/30 uppercase tracking-wider">
+        <span>Cifrado SSL 256-bit</span>
+      </div>
+    </div>
+  </section>
+
+  <Stepper current={4} />
+
+  <!-- Main Content Grid -->
+  <section class="shell grid gap-10 py-10 lg:grid-cols-[1.35fr_380px] items-start">
+    <form id="payment-checkout-form" class="rounded-3xl border border-stone-200/80 bg-paper p-7 md:p-9 soft-shadow">
+      <div>
+        <h2 class="display text-3xl font-medium text-forest">Selecciona tu Forma de Pago</h2>
+        <p class="text-xs text-stone-500 mt-1">Todas las transacciones son procesadas con altos estándares de seguridad bancaria.</p>
+      </div>
+
+      <!-- Payment Method Selector Tabs -->
+      <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <button
+          type="button"
+          data-pay-method="card"
+          class="pay-tab-btn flex flex-col items-center justify-center rounded-2xl border-2 border-forest bg-ivory/60 p-4 text-xs font-bold text-forest transition shadow-sm"
+        >
+          <span class="text-xs uppercase tracking-wider font-bold mb-1">Tarjeta</span>
+          <span class="text-[0.65rem] text-stone-500">Crédito / Débito</span>
+        </button>
+
+        <button
+          type="button"
+          data-pay-method="apple-pay"
+          class="pay-tab-btn flex flex-col items-center justify-center rounded-2xl border-2 border-stone-200 bg-paper p-4 text-xs font-semibold text-stone-600 hover:border-forest transition"
+        >
+          <span class="text-xs uppercase tracking-wider font-bold mb-1">Apple Pay</span>
+          <span class="text-[0.65rem] text-stone-400">Rápido 1-clic</span>
+        </button>
+
+        <button
+          type="button"
+          data-pay-method="google-pay"
+          class="pay-tab-btn flex flex-col items-center justify-center rounded-2xl border-2 border-stone-200 bg-paper p-4 text-xs font-semibold text-stone-600 hover:border-forest transition"
+        >
+          <span class="text-xs uppercase tracking-wider font-bold mb-1">Google Pay</span>
+          <span class="text-[0.65rem] text-stone-400">Rápido 1-clic</span>
+        </button>
+
+        <button
+          type="button"
+          data-pay-method="transfer"
+          class="pay-tab-btn flex flex-col items-center justify-center rounded-2xl border-2 border-stone-200 bg-paper p-4 text-xs font-semibold text-stone-600 hover:border-forest transition"
+        >
+          <span class="text-xs uppercase tracking-wider font-bold mb-1">Transferencia</span>
+          <span class="text-[0.65rem] text-stone-400">Bancaria Directa</span>
+        </button>
+      </div>
+
+      <!-- Interactive Credit Card Preview -->
+      <div id="card-preview-wrapper" class="mt-8 rounded-3xl bg-gradient-to-tr from-[#051c14] via-[#0b2f24] to-[#164637] p-6 text-white shadow-xl relative overflow-hidden max-w-md mx-auto w-full">
+        <div class="absolute -right-10 -bottom-10 h-40 w-40 rounded-full bg-gold/20 blur-2xl"></div>
+        <div class="flex items-center justify-between">
+          <span class="display text-sm tracking-wider text-gold-soft font-semibold">CASA BOTÁNICA GUEST</span>
+          <span class="text-sm text-gold font-bold">✤</span>
+        </div>
+        <div class="mt-8 flex items-center gap-3">
+          <div class="h-8 w-11 rounded-lg bg-gradient-to-br from-amber-200 to-amber-400 border border-amber-500/50 shadow"></div>
+          <span class="text-[0.65rem] text-white/50 tracking-widest font-mono uppercase">VIP RESORT CARD</span>
+        </div>
+        <p id="card-preview-number" class="mt-6 font-mono text-base sm:text-lg md:text-xl tracking-widest text-white">
+          •••• •••• •••• 4242
+        </p>
+        <div class="mt-6 flex items-end justify-between text-xs">
+          <div class="min-w-0 pr-2">
+            <span class="text-[0.58rem] uppercase tracking-widest text-white/50 block">Titular</span>
+            <span id="card-preview-holder" class="font-semibold uppercase tracking-wider text-white truncate block">
+              JEAN PIERRE VALENZUELA
+            </span>
+          </div>
+          <div class="shrink-0 text-right">
+            <span class="text-[0.58rem] uppercase tracking-widest text-white/50 block">Expira</span>
+            <span id="card-preview-exp" class="font-mono font-semibold text-white">
+              08 / 28
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Inputs Form -->
+      <div id="card-fields-container" class="mt-8 space-y-4">
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          Nombre en la Tarjeta
+          <input
+            id="input-card-holder"
+            type="text"
+            value="Jean Pierre Valenzuela"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition uppercase"
+            required
+          />
+        </label>
+
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          Número de Tarjeta (Demostrativo)
+          <input
+            id="input-card-number"
+            type="text"
+            value="4242 •••• •••• 4242"
+            maxlength="19"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 font-mono text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            required
+          />
+        </label>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+            Vencimiento (MM/AA)
+            <input
+              id="input-card-exp"
+              type="text"
+              value="08/28"
+              maxlength="5"
+              placeholder="MM/AA"
+              class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 font-mono text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+              required
+            />
+          </label>
+
+          <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+            Código CVV
+            <input
+              type="password"
+              value="888"
+              maxlength="4"
+              placeholder="CVV"
+              class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 font-mono text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+              required
+            />
+          </label>
+
+          <label class="col-span-2 sm:col-span-1 block text-xs font-bold uppercase tracking-wider text-forest">
+            Cuotas
+            <select class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition">
+              <option>1 pago (sin interés)</option>
+              <option>3 cuotas sin interés</option>
+              <option>6 cuotas sin interés</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <!-- Guarantee and Policies -->
+      <div class="mt-8 rounded-2xl bg-ivory p-5 border border-stone-200/80 text-xs text-stone-600 space-y-2">
+        <p class="flex items-center gap-2 font-bold text-forest">
+          <span class="text-gold">✦</span> Cancelación 100% gratuita hasta 48 hrs antes
+        </p>
+        <p>No se realizarán cargos a tu tarjeta hasta el momento del check-in.</p>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-stone-200 pt-6">
+        <a
+          href="/reserva/datos"
+          class="rounded-xl border border-stone-300 bg-paper px-5 py-3 text-xs font-bold text-forest hover:bg-stone-100 transition uppercase tracking-wider"
+        >
+          ← Volver a Datos
+        </a>
+        <button
+          id="btn-complete-payment"
+          type="submit"
+          class="btn-gold rounded-xl px-7 py-3 text-xs font-bold tracking-widest uppercase text-forest shadow-xl flex items-center gap-2"
+        >
+          <span id="btn-pay-label">Confirmar Reserva & Pago</span>
+          <span>→</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Dynamic Live Summary -->
+    <ReservationSummary />
+  </section>
+</BaseLayout>
+
+<script>
+  import { getStoredState, calculateBookingTotals, formatPrice } from '../../scripts/bookingStore';
+
+  const state = getStoredState();
+  const totals = calculateBookingTotals(state);
+
+  const inputHolder = document.getElementById('input-card-holder') as HTMLInputElement | null;
+  const inputNumber = document.getElementById('input-card-number') as HTMLInputElement | null;
+  const inputExp = document.getElementById('input-card-exp') as HTMLInputElement | null;
+
+  const previewHolder = document.getElementById('card-preview-holder');
+  const previewNumber = document.getElementById('card-preview-number');
+  const previewExp = document.getElementById('card-preview-exp');
+
+  const btnPayLabel = document.getElementById('btn-pay-label');
+  const payForm = document.getElementById('payment-checkout-form');
+
+  if (state.guestInfo && inputHolder) {
+    const full = `${state.guestInfo.firstName} ${state.guestInfo.lastName}`.trim();
+    if (full) {
+      inputHolder.value = full;
+      if (previewHolder) previewHolder.textContent = full;
+    }
+  }
+
+  inputHolder?.addEventListener('input', () => {
+    if (previewHolder) previewHolder.textContent = inputHolder.value || 'JEAN PIERRE VALENZUELA';
+  });
+
+  inputNumber?.addEventListener('input', () => {
+    if (previewNumber) previewNumber.textContent = inputNumber.value || '•••• •••• •••• 4242';
+  });
+
+  inputExp?.addEventListener('input', () => {
+    if (previewExp) previewExp.textContent = inputExp.value || '08 / 28';
+  });
+
+  if (btnPayLabel) {
+    btnPayLabel.textContent = `Pagar ${formatPrice(totals.totalCLP, state.currency)}`;
+  }
+
+  const payTabs = document.querySelectorAll('.pay-tab-btn');
+  payTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      payTabs.forEach(t => {
+        t.className = 'pay-tab-btn flex flex-col items-center justify-center rounded-2xl border-2 border-stone-200 bg-paper p-4 text-xs font-semibold text-stone-600 hover:border-forest transition';
+      });
+      tab.className = 'pay-tab-btn flex flex-col items-center justify-center rounded-2xl border-2 border-forest bg-ivory/60 p-4 text-xs font-bold text-forest transition shadow-sm';
+    });
+  });
+
+  payForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btn-complete-payment');
+    if (btn) {
+      btn.innerHTML = `<span>Procesando reserva...</span>`;
+    }
+    setTimeout(() => {
+      window.location.href = '/reserva/confirmacion';
+    }, 600);
+  });
+</script>

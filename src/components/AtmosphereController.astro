@@ -1,0 +1,294 @@
+---
+// Atmosphere and Audio Controller for Casa Botánica - Responsive & Layout Stabilized
+interface Props {
+  raised?: boolean;
+}
+const { raised = false } = Astro.props;
+---
+
+<div
+  id="atmosphere-widget"
+  class:list={[
+    "fixed right-4 z-40 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 pointer-events-none sm:right-6 lg:left-6 lg:right-auto lg:items-start",
+    raised ? "bottom-24 sm:bottom-28" : "bottom-4 sm:bottom-6"
+  ]}
+>
+  <!-- Flyout Control Panel -->
+  <div
+    id="atmosphere-panel"
+    class="pointer-events-auto hidden w-[calc(100vw-2rem)] sm:w-80 rounded-3xl border border-gold/30 bg-[#08221a]/95 p-5 text-white shadow-2xl backdrop-blur-2xl transition-all duration-300 transform scale-95 opacity-0"
+    role="region"
+    aria-label="Controles de ambiente y sonido"
+  >
+    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+      <div class="flex items-center gap-2">
+        <span class="text-gold text-sm font-semibold">✤</span>
+        <h3 class="display text-base font-medium tracking-wide">Atmósfera & Confort</h3>
+      </div>
+      <button
+        id="close-atmosphere-panel"
+        class="text-white/60 hover:text-white text-sm p-1.5 rounded-lg transition"
+        aria-label="Cerrar panel"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- 1. Iluminación / Mood -->
+    <div class="mt-4">
+      <label class="block text-[0.68rem] font-bold uppercase tracking-[0.16em] text-gold-soft mb-2">
+        Iluminación del Santuario
+      </label>
+      <div class="grid grid-cols-3 gap-1.5 rounded-2xl bg-white/5 p-1 border border-white/10">
+        <button
+          type="button"
+          data-mood="morning"
+          class="mood-btn flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-medium transition text-white/70 hover:text-white"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <span>Mañana</span>
+        </button>
+        <button
+          type="button"
+          data-mood="sunset"
+          class="mood-btn flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-medium transition bg-gold/20 text-gold-light font-bold"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.5 6.5l-1.5-1.5M6 6L4.5 4.5m15 0L18 6M6 18l-1.5 1.5M12 7a5 5 0 100 10 5 5 0 000-10z"></path></svg>
+          <span>Atardecer</span>
+        </button>
+        <button
+          type="button"
+          data-mood="night"
+          class="mood-btn flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-medium transition text-white/70 hover:text-white"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          <span>Noche</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. Sonidos Orgánicos de Relajación -->
+    <div class="mt-4">
+      <div class="flex items-center justify-between mb-2">
+        <label class="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-gold-soft">
+          Sonido Orgánico Relax
+        </label>
+        <span id="audio-status-badge" class="text-[0.68rem] px-2.5 py-0.5 rounded-full bg-white/10 text-white/60 font-medium">
+          Silencio
+        </span>
+      </div>
+      <div class="grid grid-cols-4 gap-1.5 text-xs">
+        <button
+          type="button"
+          data-sound="breeze"
+          class="sound-btn flex flex-col items-center gap-1 rounded-xl border border-white/10 bg-white/5 p-2 transition hover:border-gold/50 hover:bg-white/10"
+        >
+          <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="truncate font-medium text-[0.7rem]">Brisa</span>
+        </button>
+        <button
+          type="button"
+          data-sound="rain"
+          class="sound-btn flex flex-col items-center gap-1 rounded-xl border border-white/10 bg-white/5 p-2 transition hover:border-gold/50 hover:bg-white/10"
+        >
+          <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7z"></path></svg>
+          <span class="truncate font-medium text-[0.7rem]">Lluvia</span>
+        </button>
+        <button
+          type="button"
+          data-sound="fireplace"
+          class="sound-btn flex flex-col items-center gap-1 rounded-xl border border-white/10 bg-white/5 p-2 transition hover:border-gold/50 hover:bg-white/10"
+        >
+          <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 1-4 4-4 3 3 2 5 2 7 1-1 2-3 2-3s1.657 2.657 0 5.657z"></path></svg>
+          <span class="truncate font-medium text-[0.7rem]">Fuego</span>
+        </button>
+        <button
+          type="button"
+          data-sound="off"
+          class="sound-btn active-sound flex flex-col items-center gap-1 rounded-xl border border-gold/40 bg-gold/20 text-gold-light p-2 transition"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
+          <span class="truncate font-medium text-[0.7rem]">Mute</span>
+        </button>
+      </div>
+
+      <!-- Volume range -->
+      <div class="mt-3 flex items-center gap-3 px-1">
+        <span class="text-xs text-white/50 font-mono font-medium">VOL</span>
+        <input
+          id="sound-volume"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value="0.35"
+          class="h-1.5 w-full cursor-pointer accent-gold bg-white/20 rounded-lg"
+          aria-label="Volumen del sonido ambiente"
+        />
+      </div>
+    </div>
+
+    <!-- 3. Moneda y Experiencia -->
+    <div class="mt-4 border-t border-white/10 pt-3 flex items-center justify-between text-xs">
+      <span class="text-white/70 font-medium">Moneda preferida:</span>
+      <div class="flex gap-1.5">
+        <button type="button" data-currency="CLP" class="currency-btn rounded-lg px-2.5 py-1 text-xs font-bold bg-gold/30 text-gold-light">CLP</button>
+        <button type="button" data-currency="USD" class="currency-btn rounded-lg px-2.5 py-1 text-xs font-medium text-white/70 hover:text-white">USD</button>
+        <button type="button" data-currency="EUR" class="currency-btn rounded-lg px-2.5 py-1 text-xs font-medium text-white/70 hover:text-white">EUR</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Toggle Button -->
+  <button
+    id="atmosphere-toggle-btn"
+    class="pointer-events-auto group relative flex items-center gap-2 rounded-full border border-gold/50 bg-[#07241c]/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-white shadow-xl backdrop-blur-xl transition-all duration-300 hover:border-gold hover:bg-[#07241c]"
+    aria-label="Abrir panel de atmósfera y sonido"
+    aria-expanded="false"
+  >
+    <div id="mini-equalizer" class="hidden items-end gap-0.5 h-3.5 w-3.5">
+      <span class="sound-bar-1 w-0.5 bg-gold rounded-full"></span>
+      <span class="sound-bar-2 w-0.5 bg-gold rounded-full"></span>
+      <span class="sound-bar-3 w-0.5 bg-gold rounded-full"></span>
+      <span class="sound-bar-4 w-0.5 bg-gold rounded-full"></span>
+    </div>
+    <span id="atmosphere-icon-static" class="text-gold text-xs font-semibold">✤</span>
+    <span class="hidden sm:inline text-xs font-bold tracking-wider text-white/90 uppercase">
+      Atmósfera
+    </span>
+    <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+  </button>
+</div>
+
+<script>
+  import { ambianceAudio } from '../scripts/ambianceAudio';
+  import { getStoredState, updateBookingField } from '../scripts/bookingStore';
+
+  const panel = document.getElementById('atmosphere-panel');
+  const toggleBtn = document.getElementById('atmosphere-toggle-btn');
+  const closeBtn = document.getElementById('close-atmosphere-panel');
+  const miniEq = document.getElementById('mini-equalizer');
+  const staticIcon = document.getElementById('atmosphere-icon-static');
+  const badge = document.getElementById('audio-status-badge');
+  const volInput = document.getElementById('sound-volume') as HTMLInputElement | null;
+
+  const moodButtons = document.querySelectorAll('.mood-btn');
+  const soundButtons = document.querySelectorAll('.sound-btn');
+  const currencyButtons = document.querySelectorAll('.currency-btn');
+
+  const state = getStoredState();
+
+  const applyAtmosphere = (mood: 'morning' | 'sunset' | 'night') => {
+    document.documentElement.setAttribute('data-atmosphere', mood);
+    moodButtons.forEach(btn => {
+      const match = btn.getAttribute('data-mood') === mood;
+      btn.className = match
+        ? 'mood-btn flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-bold bg-gold/20 text-gold-light'
+        : 'mood-btn flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-medium transition text-white/70 hover:text-white';
+    });
+    updateBookingField('atmosphere', mood);
+  };
+
+  const applySound = (sound: 'off' | 'breeze' | 'rain' | 'fireplace') => {
+    soundButtons.forEach(btn => {
+      const isCurrent = btn.getAttribute('data-sound') === sound;
+      if (isCurrent) {
+        btn.classList.add('border-gold/40', 'bg-gold/20', 'text-gold-light', 'font-bold');
+        btn.classList.remove('border-white/10', 'bg-white/5', 'text-white');
+      } else {
+        btn.classList.remove('border-gold/40', 'bg-gold/20', 'text-gold-light', 'font-bold');
+        btn.classList.add('border-white/10', 'bg-white/5');
+      }
+    });
+
+    if (sound === 'off') {
+      ambianceAudio.stop();
+      if (miniEq) miniEq.classList.add('hidden');
+      if (staticIcon) staticIcon.classList.remove('hidden');
+      if (badge) {
+        badge.textContent = 'Silencio';
+        badge.className = 'text-[0.68rem] px-2.5 py-0.5 rounded-full bg-white/10 text-white/60 font-medium';
+      }
+    } else {
+      if (sound === 'breeze') ambianceAudio.playBreeze();
+      else if (sound === 'rain') ambianceAudio.playRain();
+      else if (sound === 'fireplace') ambianceAudio.playFireplace();
+
+      if (miniEq) {
+        miniEq.classList.remove('hidden');
+        miniEq.style.display = 'flex';
+      }
+      if (staticIcon) staticIcon.classList.add('hidden');
+      if (badge) {
+        badge.textContent = sound === 'breeze' ? 'Brisa activa' : sound === 'rain' ? 'Lluvia activa' : 'Fuego activo';
+        badge.className = 'text-[0.68rem] px-2.5 py-0.5 rounded-full bg-gold/20 text-gold-light font-bold';
+      }
+    }
+    updateBookingField('soundtrack', sound);
+  };
+
+  const applyCurrency = (curr: 'CLP' | 'USD' | 'EUR') => {
+    currencyButtons.forEach(btn => {
+      const match = btn.getAttribute('data-currency') === curr;
+      btn.className = match
+        ? 'currency-btn rounded-lg px-2.5 py-1 text-xs font-bold bg-gold/30 text-gold-light'
+        : 'currency-btn rounded-lg px-2.5 py-1 text-xs font-medium text-white/70 hover:text-white';
+    });
+    updateBookingField('currency', curr);
+  };
+
+  applyAtmosphere(state.atmosphere || 'sunset');
+  applyCurrency(state.currency || 'CLP');
+  if (volInput) {
+    volInput.value = String(state.soundVolume ?? 0.35);
+    ambianceAudio.setVolume(Number(volInput.value));
+  }
+
+  const togglePanel = (open?: boolean) => {
+    if (!panel) return;
+    const shouldOpen = open !== undefined ? open : panel.classList.contains('hidden');
+    if (shouldOpen) {
+      panel.classList.remove('hidden');
+      setTimeout(() => {
+        panel.classList.remove('scale-95', 'opacity-0');
+        panel.classList.add('scale-100', 'opacity-100');
+      }, 10);
+      toggleBtn?.setAttribute('aria-expanded', 'true');
+    } else {
+      panel.classList.remove('scale-100', 'opacity-100');
+      panel.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => panel.classList.add('hidden'), 250);
+      toggleBtn?.setAttribute('aria-expanded', 'false');
+    }
+  };
+
+  toggleBtn?.addEventListener('click', () => togglePanel());
+  closeBtn?.addEventListener('click', () => togglePanel(false));
+
+  moodButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mood = btn.getAttribute('data-mood') as 'morning' | 'sunset' | 'night';
+      if (mood) applyAtmosphere(mood);
+    });
+  });
+
+  soundButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const snd = btn.getAttribute('data-sound') as 'off' | 'breeze' | 'rain' | 'fireplace';
+      if (snd) applySound(snd);
+    });
+  });
+
+  volInput?.addEventListener('input', () => {
+    const val = parseFloat(volInput.value);
+    ambianceAudio.setVolume(val);
+    updateBookingField('soundVolume', val);
+  });
+
+  currencyButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const curr = btn.getAttribute('data-currency') as 'CLP' | 'USD' | 'EUR';
+      if (curr) applyCurrency(curr);
+    });
+  });
+</script>

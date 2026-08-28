@@ -1,0 +1,95 @@
+---
+// Floating Sticky Quick-Booking Bar - Stabilized Responsive Version
+---
+
+<aside
+  id="sticky-booking-bar"
+  class="fixed bottom-0 inset-x-0 z-30 transform translate-y-full border-t border-gold/30 bg-[#072118]/95 px-4 py-3 text-white shadow-2xl backdrop-blur-xl transition-transform duration-500 ease-in-out"
+  aria-label="Barra de reserva rápida"
+>
+  <div class="shell flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="hidden md:flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold border border-gold/40 font-semibold text-xs">
+        ✤
+      </div>
+      <div class="min-w-0">
+        <div class="flex items-center gap-2">
+          <span id="bar-room-name" class="display truncate text-sm sm:text-base md:text-lg font-medium text-white">
+            Suite Botánica
+          </span>
+          <span class="hidden lg:inline-block rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[0.65rem] font-bold text-emerald-300">
+            Disponible
+          </span>
+        </div>
+        <p id="bar-stay-summary" class="truncate text-xs text-white/70">
+          14 Ago — 17 Ago · 3 noches · 2 huéspedes
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 shrink-0">
+      <div class="hidden sm:block text-right">
+        <span class="block text-[0.6rem] uppercase tracking-widest text-gold-soft font-semibold">Tarifa desde</span>
+        <span id="bar-room-price" class="display text-lg sm:text-xl md:text-2xl font-semibold text-white">
+          $145.000 <span class="text-xs font-sans font-normal text-white/60">/ noche</span>
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          data-open-sensory-modal
+          class="hidden md:inline-flex items-center gap-1 rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-xs font-semibold text-white/90 transition hover:bg-white/10 hover:border-gold/40"
+          title="Ver carta de almohadas y aromas"
+        >
+          <span>Confort</span>
+        </button>
+
+        <a
+          href="/habitaciones"
+          class="btn-gold rounded-xl px-4 py-2.5 sm:px-6 sm:py-3 text-xs font-bold tracking-widest text-forest uppercase shrink-0 transition shadow-md"
+        >
+          Reservar
+        </a>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+  import { getStoredState, formatPrice, calculateNights } from '../scripts/bookingStore';
+
+  const bar = document.getElementById('sticky-booking-bar');
+  const barRoomName = document.getElementById('bar-room-name');
+  const barStaySummary = document.getElementById('bar-stay-summary');
+  const barRoomPrice = document.getElementById('bar-room-price');
+
+  const updateBarInfo = () => {
+    const state = getStoredState();
+    const nights = calculateNights(state.checkIn, state.checkOut);
+
+    if (barRoomName) barRoomName.textContent = state.roomName || 'Suite Botánica';
+    if (barStaySummary) {
+      barStaySummary.textContent = `${state.checkIn} — ${state.checkOut} · ${nights} noches · ${state.guests}`;
+    }
+    if (barRoomPrice) {
+      barRoomPrice.innerHTML = `${formatPrice(state.roomPriceCLP, state.currency)} <span class="text-xs font-sans font-normal text-white/60">/ noche</span>`;
+    }
+  };
+
+  updateBarInfo();
+  window.addEventListener('casa-botanica-state-change', updateBarInfo);
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    if (scrollY > 380) {
+      bar?.classList.remove('translate-y-full');
+      bar?.classList.add('translate-y-0');
+    } else {
+      bar?.classList.add('translate-y-full');
+      bar?.classList.remove('translate-y-0');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+</script>

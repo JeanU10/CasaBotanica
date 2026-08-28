@@ -1,7 +1,115 @@
 ---
-const { dark = true } = Astro.props;
+// Luxury Public Header for Casa Botánica - Perfectly Proportioned & Vertically Centered
 ---
-<header class:list={["fixed inset-x-0 top-0 z-50 h-20 border-b shadow-[0_10px_35px_rgba(5,28,21,.12)] backdrop-blur-xl supports-[backdrop-filter]:bg-forest/75 lg:h-24", dark ? "border-white/15 bg-forest/85 text-white" : "border-stone-200 bg-paper/85 text-ink"]}>
-  <div class="shell flex h-full items-center justify-between gap-4"><a href="/" class="flex min-w-0 items-center gap-2.5 sm:gap-3"><span class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold text-xl text-gold sm:h-10 sm:w-10 sm:text-2xl">✤</span><span class="min-w-0 leading-none"><span class="display block whitespace-nowrap text-base tracking-wide sm:text-xl">CASA BOTÁNICA</span><span class="mt-1 block whitespace-nowrap text-[.46rem] font-semibold tracking-[.22em] text-gold sm:text-[.54rem] sm:tracking-[.28em]">HOTEL BOUTIQUE</span></span></a><nav class="hidden items-center gap-7 text-sm lg:flex"><a href="/">Inicio</a><a href="/habitaciones" class="text-gold">Habitaciones</a><a href="/#experiencias">Experiencias</a><a href="/#gastronomia">Gastronomía</a><a href="/#hotel">El hotel</a></nav><div class="flex shrink-0 items-center gap-3"><a href="/habitaciones" class="hidden rounded-xl border border-gold/40 bg-forest px-5 py-3 text-xs font-bold tracking-widest text-white sm:block">RESERVAR AHORA</a><button id="nav-toggle" class="grid h-10 w-10 place-items-center rounded-full border border-current/20 lg:hidden" aria-label="Abrir menú">☰</button></div></div>
-  <nav id="nav-mobile" class:list={["hidden border-t px-6 py-5 text-center text-sm lg:hidden", dark ? "border-white/10 bg-forest" : "border-stone-200 bg-paper"]}><div class="grid gap-4"><a href="/">Inicio</a><a href="/habitaciones">Habitaciones</a><a href="/#experiencias">Experiencias</a><a href="/#hotel">El hotel</a></div></nav>
-</header><script>document.querySelector('#nav-toggle')?.addEventListener('click',()=>document.querySelector('#nav-mobile')?.classList.toggle('hidden'));</script>
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-50 h-[4.5rem] border-b border-white/10 glass-header text-white transition-all duration-300 shadow-[0_4px_25px_rgba(5,28,21,.15)]"
+>
+  <div class="shell flex h-full items-center justify-between gap-4">
+    <!-- Brand Logo -->
+    <a href="/" class="group flex min-w-0 shrink-0 items-center gap-3" aria-label="Casa Botánica, inicio">
+      <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold/70 bg-forest-dark/50 text-sm text-gold transition-transform duration-500 group-hover:rotate-45 sm:h-10 sm:w-10 sm:text-base">
+        ✤
+      </span>
+      <div class="flex min-w-0 flex-col justify-center">
+        <span class="display whitespace-nowrap text-[1.08rem] font-medium leading-tight tracking-[0.025em] text-white sm:text-xl">
+          CASA BOTÁNICA
+        </span>
+        <span class="mt-0.5 whitespace-nowrap text-[0.52rem] font-semibold uppercase leading-none tracking-[0.22em] text-gold-soft sm:text-[0.57rem]">
+          Hotel Boutique
+        </span>
+      </div>
+    </a>
+
+    <!-- Main Navigation with Balanced Font Proportions -->
+    <nav class="hidden items-center gap-5 whitespace-nowrap text-[0.78rem] font-medium xl:flex" aria-label="Navegación principal">
+      <a href="/" class="text-white/80 hover:text-gold-light transition">Inicio</a>
+      <a href="/habitaciones" class="text-white/80 hover:text-gold-light transition">Habitaciones</a>
+      <a href="/#descanso" class="text-white/80 hover:text-gold-light transition">El Arte del Descanso</a>
+      <a href="/#nosotros" class="text-white/80 hover:text-gold-light transition">Sobre Nosotros</a>
+      <a href="/#experiencias" class="text-white/80 hover:text-gold-light transition">Experiencias</a>
+      <a href="/#gastronomia" class="text-white/80 hover:text-gold-light transition">Gastronomía</a>
+      <a href="/#santuario" class="text-white/80 hover:text-gold-light transition">El Santuario</a>
+    </nav>
+
+    <!-- Header Actions - Standardized Heights & Proportions -->
+    <div class="flex items-center gap-3 shrink-0">
+      <!-- Main Booking Action -->
+      <a
+        href="/habitaciones"
+        class="header-booking-cta btn-gold rounded-xl px-5 py-2.5 text-[0.72rem] shadow-md"
+      >
+        Reservar
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button
+        id="nav-toggle"
+        class="grid h-10 w-10 place-items-center rounded-xl border border-white/20 text-white transition hover:bg-white/10 xl:hidden text-lg"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <nav
+    id="nav-mobile"
+    class="hidden border-t border-white/15 bg-[#08241b]/98 px-6 py-6 text-center text-sm shadow-2xl backdrop-blur-2xl xl:hidden"
+    aria-label="Navegación móvil"
+  >
+    <div class="mx-auto grid max-w-sm gap-3.5">
+      <a href="/" class="py-2.5 text-white/90 hover:text-gold font-medium border-b border-white/10">Inicio</a>
+      <a href="/habitaciones" class="py-2.5 text-white/90 hover:text-gold font-medium border-b border-white/10">Habitaciones & Suites</a>
+      <a href="/#descanso" class="py-2.5 text-gold-light hover:text-gold font-medium border-b border-white/10">El Arte del Descanso</a>
+      <a href="/#nosotros" class="py-2.5 text-white/90 hover:text-gold font-medium border-b border-white/10">Sobre Nosotros</a>
+      <a href="/#experiencias" class="py-2.5 text-white/90 hover:text-gold font-medium border-b border-white/10">Experiencias & Viñedos</a>
+      <a href="/#santuario" class="py-2.5 text-white/90 hover:text-gold font-medium border-b border-white/10">El Santuario</a>
+
+      <div class="grid grid-cols-2 gap-2 pt-2">
+        <button
+          type="button"
+          data-open-sensory-modal
+          class="rounded-xl border border-gold/40 bg-gold/10 py-2.5 text-xs font-bold text-gold-light"
+        >
+          Carta de Confort
+        </button>
+        <button
+          type="button"
+          data-open-concierge
+          class="rounded-xl border border-white/20 bg-white/10 py-2.5 text-xs font-bold text-white"
+        >
+          Concierge
+        </button>
+      </div>
+
+      <a
+        href="/habitaciones"
+        class="btn-gold mt-2 block rounded-xl py-3 text-center text-xs font-bold tracking-widest text-forest uppercase"
+      >
+        Reservar Estadía
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const navToggle = document.querySelector('#nav-toggle');
+  const navMobile = document.querySelector('#nav-mobile');
+
+  navToggle?.addEventListener('click', () => {
+    navMobile?.classList.toggle('hidden');
+    const isExpanded = !navMobile?.classList.contains('hidden');
+    navToggle.setAttribute('aria-expanded', String(isExpanded));
+  });
+
+  navMobile?.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('click', () => {
+      navMobile?.classList.add('hidden');
+      navToggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

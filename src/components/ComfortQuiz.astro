@@ -1,0 +1,222 @@
+---
+// Interactive Comfort & Stay Matcher for Casa Botánica - Clean Edition
+---
+
+<div class="relative overflow-hidden rounded-3xl border border-gold/30 bg-gradient-to-br from-[#0a271e] via-[#0b2f24] to-[#071d16] p-7 md:p-12 text-white shadow-2xl">
+  <div class="relative z-10 max-w-3xl">
+    <span class="eyebrow text-gold-soft">Experiencia a tu Medida</span>
+    <h2 class="display mt-3 text-3xl md:text-5xl font-medium leading-[1.05]">
+      ¿Qué sensación buscas despertar en tu estadía?
+    </h2>
+    <p class="mt-4 text-xs md:text-sm text-white/75 leading-6 max-w-2xl font-light">
+      Descubre la combinación perfecta de habitación, aromaterapia y actividades según tu momento vital.
+    </p>
+
+    <!-- Quiz Container -->
+    <div id="comfort-quiz-wrapper" class="mt-8">
+      <!-- Step 1: Intention -->
+      <div id="quiz-step-1" class="quiz-step transition-all duration-300">
+        <p class="text-xs font-bold uppercase tracking-wider text-gold mb-4">
+          Paso 1 de 2: Elige tu motivo principal de escape
+        </p>
+        <div class="grid gap-3.5 sm:grid-cols-2">
+          <button
+            type="button"
+            data-quiz-intent="romance"
+            class="quiz-btn group flex items-start gap-4 rounded-2xl border border-white/15 bg-white/5 p-4 text-left transition hover:border-gold hover:bg-white/10"
+          >
+            <span class="text-gold font-bold text-lg mt-0.5">✦</span>
+            <div>
+              <b class="display text-lg block text-white group-hover:text-gold-light">Romance & Celebración</b>
+              <p class="mt-1 text-xs text-white/70 leading-relaxed">Terraza privada, tina de piedra volcánica, champaña y momentos íntimos.</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            data-quiz-intent="wellness"
+            class="quiz-btn group flex items-start gap-4 rounded-2xl border border-white/15 bg-white/5 p-4 text-left transition hover:border-gold hover:bg-white/10"
+          >
+            <span class="text-gold font-bold text-lg mt-0.5">✦</span>
+            <div>
+              <b class="display text-lg block text-white group-hover:text-gold-light">Desconexión & Spa Total</b>
+              <p class="mt-1 text-xs text-white/70 leading-relaxed">Masaje botánico, silencio reparador, aromaterapia y descanso supremo.</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            data-quiz-intent="culture"
+            class="quiz-btn group flex items-start gap-4 rounded-2xl border border-white/15 bg-white/5 p-4 text-left transition hover:border-gold hover:bg-white/10"
+          >
+            <span class="text-gold font-bold text-lg mt-0.5">✦</span>
+            <div>
+              <b class="display text-lg block text-white group-hover:text-gold-light">Gastronomía & Viñedos</b>
+              <p class="mt-1 text-xs text-white/70 leading-relaxed">Cata guiada con sommelier, cocina de estación y sabores orgánicos.</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            data-quiz-intent="calm"
+            class="quiz-btn group flex items-start gap-4 rounded-2xl border border-white/15 bg-white/5 p-4 text-left transition hover:border-gold hover:bg-white/10"
+          >
+            <span class="text-gold font-bold text-lg mt-0.5">✦</span>
+            <div>
+              <b class="display text-lg block text-white group-hover:text-gold-light">Retiro de Calma & Lectura</b>
+              <p class="mt-1 text-xs text-white/70 leading-relaxed">Patio de orquídeas, café de origen, luz natural y desconexión digital.</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Morning Atmosphere -->
+      <div id="quiz-step-2" class="quiz-step hidden transition-all duration-300">
+        <p class="text-xs font-bold uppercase tracking-wider text-gold mb-4">
+          Paso 2 de 2: ¿Cómo imaginas tu amanecer ideal?
+        </p>
+        <div class="grid gap-3.5 sm:grid-cols-3">
+          <button
+            type="button"
+            data-quiz-vibe="terrace"
+            class="quiz-vibe-btn flex flex-col items-center text-center rounded-2xl border border-white/15 bg-white/5 p-5 transition hover:border-gold hover:bg-white/10"
+          >
+            <span class="text-gold font-bold text-sm mb-1 uppercase tracking-wider">Amanecer 01</span>
+            <b class="text-sm font-semibold text-white">Desayuno en Balcón Privado</b>
+            <p class="mt-2 text-xs text-white/60 leading-relaxed">Con vistas al dosel botánico y la brisa fresca de la mañana.</p>
+          </button>
+
+          <button
+            type="button"
+            data-quiz-vibe="garden"
+            class="quiz-vibe-btn flex flex-col items-center text-center rounded-2xl border border-white/15 bg-white/5 p-5 transition hover:border-gold hover:bg-white/10"
+          >
+            <span class="text-gold font-bold text-sm mb-1 uppercase tracking-wider">Amanecer 02</span>
+            <b class="text-sm font-semibold text-white">Patio de Orquídeas & Silencio</b>
+            <p class="mt-2 text-xs text-white/60 leading-relaxed">Privacidad absoluta rodeado de helechos y luz filtrada.</p>
+          </button>
+
+          <button
+            type="button"
+            data-quiz-vibe="solarium"
+            class="quiz-vibe-btn flex flex-col items-center text-center rounded-2xl border border-white/15 bg-white/5 p-5 transition hover:border-gold hover:bg-white/10"
+          >
+            <span class="text-gold font-bold text-sm mb-1 uppercase tracking-wider">Amanecer 03</span>
+            <b class="text-sm font-semibold text-white">Luz Cálida & Madera Colonial</b>
+            <p class="mt-2 text-xs text-white/60 leading-relaxed">Espacio acogedor bañado en sol matutino y texturas de lino.</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div id="quiz-result" class="hidden transition-all duration-500">
+        <div class="rounded-2xl border border-gold/50 bg-[#061e16] p-6 md:p-8">
+          <div class="flex flex-col md:flex-row gap-6 items-center">
+            <img
+              id="quiz-result-img"
+              src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=88"
+              alt="Habitación recomendada"
+              class="h-48 w-full md:w-64 rounded-xl object-cover"
+            />
+            <div class="flex-1">
+              <span class="rounded-full bg-gold/20 text-gold px-3 py-1 text-[0.62rem] font-bold tracking-widest uppercase">
+                Tu Refugio Recomendado
+              </span>
+              <h3 id="quiz-result-title" class="display text-3xl font-medium mt-2 text-white">
+                Suite Botánica + Experiencia Sensorial
+              </h3>
+              <p id="quiz-result-desc" class="mt-2 text-xs text-white/75 leading-5 font-light">
+                La combinación ideal para tu estadía: incluye terraza privada, sábanas de 800 hilos, aromaterapia de lavanda silvestre y desayuno gourmet a la carta.
+              </p>
+              <div class="mt-5 flex flex-wrap items-center gap-4">
+                <a
+                  id="quiz-select-btn"
+                  href="/habitaciones/suite-botanica"
+                  class="btn-gold rounded-xl px-6 py-3 text-xs font-bold tracking-wider text-forest uppercase"
+                >
+                  Elegir esta Habitación
+                </a>
+                <button
+                  id="quiz-restart-btn"
+                  type="button"
+                  class="text-xs text-white/60 hover:text-white underline transition"
+                >
+                  Repetir recomendación
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { updateBookingField } from '../scripts/bookingStore';
+
+  let selectedIntent = 'romance';
+  let selectedVibe = 'terrace';
+
+  const step1 = document.getElementById('quiz-step-1');
+  const step2 = document.getElementById('quiz-step-2');
+  const result = document.getElementById('quiz-result');
+
+  const resultImg = document.getElementById('quiz-result-img') as HTMLImageElement | null;
+  const resultTitle = document.getElementById('quiz-result-title');
+  const resultDesc = document.getElementById('quiz-result-desc');
+  const selectBtn = document.getElementById('quiz-select-btn') as HTMLAnchorElement | null;
+  const restartBtn = document.getElementById('quiz-restart-btn');
+
+  document.querySelectorAll('[data-quiz-intent]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedIntent = btn.getAttribute('data-quiz-intent') || 'romance';
+      step1?.classList.add('hidden');
+      step2?.classList.remove('hidden');
+    });
+  });
+
+  document.querySelectorAll('[data-quiz-vibe]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedVibe = btn.getAttribute('data-quiz-vibe') || 'terrace';
+      showResult();
+    });
+  });
+
+  const showResult = () => {
+    step2?.classList.add('hidden');
+    result?.classList.remove('hidden');
+
+    if (selectedIntent === 'calm' || selectedVibe === 'garden') {
+      if (resultImg) resultImg.src = 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=88';
+      if (resultTitle) resultTitle.textContent = 'Habitación Deluxe Jardín';
+      if (resultDesc) resultDesc.textContent = 'Tu patio privado de orquídeas y helechos con ventanales de piso a techo, perfecto para desconectar, leer y disfrutar de infusiones frescas con aromaterapia de eucalipto.';
+      if (selectBtn) selectBtn.href = '/habitaciones';
+      updateBookingField('roomId', 'deluxe-jardin');
+      updateBookingField('roomName', 'Habitación Deluxe Jardín');
+      updateBookingField('roomPriceCLP', 115000);
+    } else if (selectedVibe === 'solarium') {
+      if (resultImg) resultImg.src = 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=88';
+      if (resultTitle) resultTitle.textContent = 'Habitación Superior Solarium';
+      if (resultDesc) resultDesc.textContent = 'Maderas nobles, techos altos coloniales y luz natural resplandeciente. La elección favorita para una escapada reconfortante con la mejor relación de valor.';
+      if (selectBtn) selectBtn.href = '/habitaciones';
+      updateBookingField('roomId', 'superior-solarium');
+      updateBookingField('roomName', 'Habitación Superior Solarium');
+      updateBookingField('roomPriceCLP', 95000);
+    } else {
+      if (resultImg) resultImg.src = 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=88';
+      if (resultTitle) resultTitle.textContent = 'Suite Botánica Insignia';
+      if (resultDesc) resultDesc.textContent = 'Nuestra joya principal: tina exenta de piedra volcánica, balcón panorámico, sábanas de 800 hilos y selección personalizada de aceites aromáticos de bienvenida.';
+      if (selectBtn) selectBtn.href = '/habitaciones/suite-botanica';
+      updateBookingField('roomId', 'suite-botanica');
+      updateBookingField('roomName', 'Suite Botánica');
+      updateBookingField('roomPriceCLP', 145000);
+    }
+  };
+
+  restartBtn?.addEventListener('click', () => {
+    result?.classList.add('hidden');
+    step2?.classList.add('hidden');
+    step1?.classList.remove('hidden');
+  });
+</script>

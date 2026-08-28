@@ -1,4 +1,234 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';import Stepper from '../../components/Stepper.astro';import ReservationSummary from '../../components/ReservationSummary.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Stepper from '../../components/Stepper.astro';
+import ReservationSummary from '../../components/ReservationSummary.astro';
 ---
-<BaseLayout title="Datos del huésped — Casa Botánica"><section class="bg-forest py-7 text-white"><div class="shell"><h1 class="display text-4xl">Tu reserva</h1><p class="text-sm text-white/70">Completa tus datos personales.</p></div></section><Stepper current={3}/><section class="shell grid gap-8 py-10 lg:grid-cols-[1fr_340px]"><form class="rounded-2xl bg-paper p-7 soft-shadow" action="/reserva/pago"><h2 class="display text-4xl">Datos del huésped</h2><p class="mt-2 text-sm text-stone-500">Completa la información para tu reserva.</p><p class="eyebrow mt-8">Información personal</p><div class="mt-4 grid gap-5 md:grid-cols-2">{[['Nombre','Jean Pierre'],['Apellido','Valenzuela'],['Correo electrónico','jeanpierre@mail.com'],['Teléfono','+56 9 1234 5678'],['País de residencia','Chile'],['Documento de identidad','AB1234567']].map(x=><label class="text-xs font-semibold">{x[0]} *<input value={x[1]} class="mt-2 w-full rounded-lg border border-stone-200 bg-transparent px-4 py-3 outline-none focus:border-gold" required/></label>)}</div><p class="eyebrow mt-8 border-t border-stone-200 pt-7">Información de la estadía</p><div class="mt-4 grid gap-4 sm:grid-cols-4">{[['Llegada','12 Ago 2026'],['Salida','15 Ago 2026'],['Noches','3 noches'],['Huéspedes','2 adultos']].map(x=><div class="rounded-xl bg-ivory p-4"><p class="text-[.65rem] text-stone-500">{x[0]}</p><b class="mt-1 block text-sm">{x[1]}</b></div>)}</div><p class="eyebrow mt-8">Preferencias especiales</p><textarea class="mt-4 h-28 w-full rounded-xl border border-stone-200 p-4 text-sm outline-none focus:border-gold" placeholder="Almohadas suaves, habitación en piso alto..."></textarea><div class="mt-7 flex justify-between gap-4"><a href="/reserva/experiencias" class="rounded-xl border border-forest px-6 py-4 text-sm">← Volver</a><button class="rounded-xl bg-forest px-7 py-4 text-sm font-bold text-white">Continuar al pago →</button></div></form><ReservationSummary extras/></section></BaseLayout>
+
+<BaseLayout title="Datos del Huésped — Casa Botánica" showStickyBar={false}>
+  <!-- Top Banner -->
+  <section class="bg-forest py-8 text-white border-b border-white/10">
+    <div class="shell">
+      <span class="eyebrow text-gold-soft">Paso 3 de 4</span>
+      <h1 class="display mt-1 text-3xl sm:text-4xl md:text-5xl font-medium text-white">
+        Datos del Huésped & Preferencias de Descanso
+      </h1>
+      <p class="mt-1 text-xs sm:text-sm text-white/70">
+        Personaliza cada detalle de tu habitación para recibirte con el máximo confort.
+      </p>
+    </div>
+  </section>
+
+  <Stepper current={3} />
+
+  <!-- Main Content Grid -->
+  <section class="shell grid gap-10 py-10 lg:grid-cols-[1.35fr_380px] items-start">
+    <form id="guest-data-form" class="rounded-3xl border border-stone-200/80 bg-paper p-7 md:p-9 soft-shadow">
+      <div>
+        <h2 class="display text-3xl font-medium text-forest">Información del Huésped Titular</h2>
+        <p class="text-xs text-stone-500 mt-1">Tus datos están protegidos con cifrado y confidencialidad boutique.</p>
+      </div>
+
+      <!-- Personal Info Fields -->
+      <div class="mt-8 grid gap-5 md:grid-cols-2">
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          Nombre *
+          <input
+            id="field-firstname"
+            type="text"
+            value="Jean Pierre"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            required
+          />
+        </label>
+
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          Apellido *
+          <input
+            id="field-lastname"
+            type="text"
+            value="Valenzuela"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            required
+          />
+        </label>
+
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          Correo Electrónico *
+          <input
+            id="field-email"
+            type="email"
+            value="jeanpierre@mail.com"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            required
+          />
+        </label>
+
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          Teléfono móvil *
+          <input
+            id="field-phone"
+            type="tel"
+            value="+56 9 1234 5678"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            required
+          />
+        </label>
+
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          País de Residencia
+          <select
+            id="field-country"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+          >
+            <option value="Chile">Chile</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Brasil">Brasil</option>
+            <option value="Estados Unidos">Estados Unidos</option>
+            <option value="España">España</option>
+            <option value="Otro">Otro país</option>
+          </select>
+        </label>
+
+        <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+          Documento / Pasaporte
+          <input
+            id="field-idnumber"
+            type="text"
+            value="18.423.910-K"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+          />
+        </label>
+      </div>
+
+      <!-- Personalized Comfort Section -->
+      <div class="mt-10 border-t border-stone-200 pt-8">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="eyebrow text-gold font-bold">Personalización de tu Suite</span>
+            <h3 class="display text-2xl font-semibold text-forest mt-1">Preferencias de Bienestar & Descanso</h3>
+          </div>
+          <span class="text-xs text-emerald-700 font-bold bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+            Sin cargo extra
+          </span>
+        </div>
+
+        <div class="mt-6 grid gap-5 sm:grid-cols-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+            Elección de Almohada
+            <select
+              id="field-pillow"
+              class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-xs md:text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            >
+              <option value="Pluma de ganso húngaro">Pluma de Ganso Húngaro (Extra suave & mullida)</option>
+              <option value="Viscoelástica con infusión de lavanda">Viscoelástica con Lavanda (Alivio cervical)</option>
+              <option value="Fibra de bambú orgánico">Bambú Orgánico (Termorregulador fresco)</option>
+              <option value="Soporte anatómico de látex natural">Látex Natural Ergonómico (Firmeza media-alta)</option>
+            </select>
+          </label>
+
+          <label class="block text-xs font-bold uppercase tracking-wider text-forest">
+            Aromaterapia de Bienvenida
+            <select
+              id="field-aroma"
+              class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-xs md:text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            >
+              <option value="Lavanda & Cedro Andino">Lavanda & Cedro Andino (Paz profunda)</option>
+              <option value="Eucalipto & Menta Silvestre">Eucalipto & Menta Silvestre (Oxigenación y frescura)</option>
+              <option value="Flor de Azahar & Vainilla">Flor de Azahar & Vainilla (Calidez dulce)</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="mt-5 block text-xs font-bold uppercase tracking-wider text-forest">
+          Bebida de Bienvenida al Check-in
+          <select
+            id="field-drink"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 px-4 py-3 text-xs md:text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+          >
+            <option value="Infusión botánica fría de menta y jengibre">Infusión botánica fría de menta silvestre, jengibre y miel orgánica</option>
+            <option value="Copa de vino espumante del valle">Copa de espumante brut del valle helado</option>
+            <option value="Jugo natural de naranjas recién cosechadas">Jugo natural prensado en frío de naranjas y hierba luisa</option>
+          </select>
+        </label>
+
+        <label class="mt-5 block text-xs font-bold uppercase tracking-wider text-forest">
+          Notas especiales o requerimientos dietéticos
+          <textarea
+            id="field-requests"
+            rows="3"
+            class="mt-2 w-full rounded-xl border border-stone-300 bg-ivory/50 p-4 text-xs md:text-sm text-ink outline-none focus:border-gold focus:bg-paper transition"
+            placeholder="Ej: Dieta vegetariana, llegada estimada a las 16:00, celebración de aniversario..."
+          >Habitación en piso superior con vista abierta al jardín botánico y llegada tranquila.</textarea>
+        </label>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-stone-200 pt-6">
+        <a
+          href="/reserva/experiencias"
+          class="rounded-xl border border-stone-300 bg-paper px-5 py-3 text-xs font-bold text-forest hover:bg-stone-100 transition uppercase tracking-wider"
+        >
+          ← Volver a Experiencias
+        </a>
+        <button
+          type="submit"
+          class="btn-gold rounded-xl px-7 py-3 text-xs font-bold tracking-widest uppercase text-forest shadow-lg"
+        >
+          Continuar al Pago →
+        </button>
+      </div>
+    </form>
+
+    <!-- Reservation Summary -->
+    <ReservationSummary />
+  </section>
+</BaseLayout>
+
+<script>
+  import { getStoredState, updateBookingField } from '../../scripts/bookingStore';
+
+  const form = document.getElementById('guest-data-form');
+  const fieldFirstName = document.getElementById('field-firstname') as HTMLInputElement | null;
+  const fieldLastName = document.getElementById('field-lastname') as HTMLInputElement | null;
+  const fieldEmail = document.getElementById('field-email') as HTMLInputElement | null;
+  const fieldPhone = document.getElementById('field-phone') as HTMLInputElement | null;
+  const fieldCountry = document.getElementById('field-country') as HTMLSelectElement | null;
+  const fieldIdNumber = document.getElementById('field-idnumber') as HTMLInputElement | null;
+  const fieldPillow = document.getElementById('field-pillow') as HTMLSelectElement | null;
+  const fieldAroma = document.getElementById('field-aroma') as HTMLSelectElement | null;
+  const fieldDrink = document.getElementById('field-drink') as HTMLSelectElement | null;
+  const fieldRequests = document.getElementById('field-requests') as HTMLTextAreaElement | null;
+
+  const state = getStoredState();
+  if (state.guestInfo) {
+    if (fieldFirstName && state.guestInfo.firstName) fieldFirstName.value = state.guestInfo.firstName;
+    if (fieldLastName && state.guestInfo.lastName) fieldLastName.value = state.guestInfo.lastName;
+    if (fieldEmail && state.guestInfo.email) fieldEmail.value = state.guestInfo.email;
+    if (fieldPhone && state.guestInfo.phone) fieldPhone.value = state.guestInfo.phone;
+    if (fieldCountry && state.guestInfo.country) fieldCountry.value = state.guestInfo.country;
+    if (fieldIdNumber && state.guestInfo.idNumber) fieldIdNumber.value = state.guestInfo.idNumber;
+    if (fieldPillow && state.guestInfo.pillowPreference) fieldPillow.value = state.guestInfo.pillowPreference;
+    if (fieldAroma && state.guestInfo.aromaPreference) fieldAroma.value = state.guestInfo.aromaPreference;
+    if (fieldDrink && state.guestInfo.welcomeDrink) fieldDrink.value = state.guestInfo.welcomeDrink;
+    if (fieldRequests && state.guestInfo.specialRequests) fieldRequests.value = state.guestInfo.specialRequests;
+  }
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const guestInfo = {
+      firstName: fieldFirstName?.value || 'Jean Pierre',
+      lastName: fieldLastName?.value || 'Valenzuela',
+      email: fieldEmail?.value || 'jeanpierre@mail.com',
+      phone: fieldPhone?.value || '+56 9 1234 5678',
+      country: fieldCountry?.value || 'Chile',
+      idNumber: fieldIdNumber?.value || '18.423.910-K',
+      pillowPreference: fieldPillow?.value || 'Pluma de ganso húngaro',
+      aromaPreference: fieldAroma?.value || 'Lavanda & Cedro Andino',
+      welcomeDrink: fieldDrink?.value || 'Infusión botánica fría de menta y jengibre',
+      specialRequests: fieldRequests?.value || ''
+    };
+
+    updateBookingField('guestInfo', guestInfo);
+    window.location.href = '/reserva/pago';
+  });
+</script>
